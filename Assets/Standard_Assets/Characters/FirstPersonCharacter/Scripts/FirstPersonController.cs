@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
 using UnityStandardAssets.Utility;
@@ -43,6 +44,30 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private bool m_Jumping;
         private AudioSource m_AudioSource;
 
+        private Vector3 startingPosition;
+        private GameController gameController;
+
+        private void OnTriggerEnter(Collider other)
+        {
+            Debug.Log(other.tag);
+            if (other.transform.CompareTag("Death"))
+            {
+                TeleportPlayerTo(startingPosition);
+            }
+
+            if(other.transform.CompareTag("DisappearingFloor"))
+            {
+                StartCoroutine(gameController.DisableObjectTemporarily(other.gameObject, GameController.FloorDissapearTime));
+            }
+        }
+
+        private void TeleportPlayerTo(Vector3 position)
+        {
+            m_CharacterController.enabled = false; // when character controller is enabled it prevents changing transform.position
+            transform.position = position;
+            m_CharacterController.enabled = true;
+        }
+
         // Use this for initialization
         private void Start()
         {
@@ -56,6 +81,11 @@ namespace UnityStandardAssets.Characters.FirstPerson
             m_Jumping = false;
             m_AudioSource = GetComponent<AudioSource>();
 			m_MouseLook.Init(transform , m_Camera.transform);
+
+            startingPosition = transform.position;
+
+            gameController = FindObjectOfType<GameController>();
+            if (gameController == null) throw new Exception("Game controller not found!");
         }
 
 
