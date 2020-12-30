@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Blade : MonoBehaviour
 {
-    public float moveDistanceZ;
+    public float moveDistanceZ = 0;
+    public float moveDistanceX = 0;
     public float moveTime;
     public float waitTime;
 
@@ -17,7 +18,7 @@ public class Blade : MonoBehaviour
     void Start()
     {
         startPosition = transform.position;
-        targetPosition = new Vector3(startPosition.x, startPosition.y, startPosition.z + moveDistanceZ);
+        targetPosition = new Vector3(startPosition.x + moveDistanceX, startPosition.y, startPosition.z + moveDistanceZ);
 
         StartCoroutine(Move(waitTime));
     }
