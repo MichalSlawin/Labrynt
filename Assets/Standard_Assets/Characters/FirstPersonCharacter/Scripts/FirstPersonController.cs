@@ -57,7 +57,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
             if(other.transform.CompareTag("DisappearingFloor"))
             {
-                StartCoroutine(gameController.DisableObjectTemporarily(other.gameObject, GameController.FloorDissapearTime));
+                StartCoroutine(gameController.DisableObjectTemporarily(other.gameObject, GameController.FloorDissapearTime, GameController.FloorAppearTime));
             }
         }
 
