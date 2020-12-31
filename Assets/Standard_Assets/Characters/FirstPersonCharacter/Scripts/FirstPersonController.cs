@@ -55,9 +55,14 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 TeleportPlayerTo(startingPosition);
             }
 
-            if(other.transform.CompareTag("DisappearingFloor"))
+            if (other.transform.CompareTag("DisappearingFloor"))
             {
                 StartCoroutine(gameController.DisableObjectTemporarily(other.gameObject, GameController.FloorDissapearTime, GameController.FloorAppearTime));
+            }
+
+            if (other.transform.CompareTag("Respawn"))
+            {
+                startingPosition = transform.position;
             }
         }
 

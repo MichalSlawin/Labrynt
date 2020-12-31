@@ -6,6 +6,7 @@ public class Blade : MonoBehaviour
 {
     public float moveDistanceZ = 0;
     public float moveDistanceX = 0;
+    public float moveDistanceY = 0;
     public float moveTime;
     public float waitTime;
 
@@ -18,7 +19,7 @@ public class Blade : MonoBehaviour
     void Start()
     {
         startPosition = transform.position;
-        targetPosition = new Vector3(startPosition.x + moveDistanceX, startPosition.y, startPosition.z + moveDistanceZ);
+        targetPosition = new Vector3(startPosition.x + moveDistanceX, startPosition.y + moveDistanceY, startPosition.z + moveDistanceZ);
 
         StartCoroutine(Move(waitTime));
     }

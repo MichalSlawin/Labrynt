@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3006314433657492757}
   - component: {fileID: 3006314433657492746}
   m_Layer: 0
-  m_Name: LongSpike
+  m_Name: LongFloorSpike
   m_TagString: Death
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28,7 +28,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3006314433657492747}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 34, y: 30, z: -7}
   m_LocalScale: {x: 1, y: 1, z: 9}
   m_Children: []
@@ -324,7 +324,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 782afa2fc998aa248aa2e7077350dcdb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveDistanceZ: -3
+  moveDistanceZ: 0
   moveDistanceX: 0
+  moveDistanceY: 4
   moveTime: 0.3
-  waitTime: 1
+  waitTime: 0.5
