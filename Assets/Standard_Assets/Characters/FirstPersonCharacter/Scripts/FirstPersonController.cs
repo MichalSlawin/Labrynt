@@ -49,7 +49,6 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
         private void OnTriggerEnter(Collider other)
         {
-            Debug.Log(other.tag);
             if (other.transform.CompareTag("Death"))
             {
                 TeleportPlayerTo(startingPosition);
@@ -63,6 +62,11 @@ namespace UnityStandardAssets.Characters.FirstPerson
             if (other.transform.CompareTag("Respawn"))
             {
                 startingPosition = transform.position;
+            }
+
+            if (other.transform.CompareTag("Finish"))
+            {
+                gameController.ExitGame();
             }
         }
 

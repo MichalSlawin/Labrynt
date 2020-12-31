@@ -32,7 +32,7 @@ public class Blade : MonoBehaviour
             timeCounter += Time.deltaTime / moveTime;
             transform.position = Vector3.Lerp(startPosition, targetPosition, timeCounter);
 
-            if (transform.position.Equals(targetPosition))
+            if (transform.position == targetPosition)
             {
                 moving = false;
                 targetPosition = startPosition;
