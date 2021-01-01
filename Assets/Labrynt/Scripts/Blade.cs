@@ -18,7 +18,7 @@ public class Blade : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        startPosition = transform.position;
+        startPosition = transform.localPosition;
         targetPosition = new Vector3(startPosition.x + moveDistanceX, startPosition.y + moveDistanceY, startPosition.z + moveDistanceZ);
 
         StartCoroutine(Move(waitTime));
@@ -30,13 +30,13 @@ public class Blade : MonoBehaviour
         if (moving)
         {
             timeCounter += Time.deltaTime / moveTime;
-            transform.position = Vector3.Lerp(startPosition, targetPosition, timeCounter);
+            transform.localPosition = Vector3.Lerp(startPosition, targetPosition, timeCounter);
 
-            if (transform.position == targetPosition)
+            if (transform.localPosition == targetPosition)
             {
                 moving = false;
                 targetPosition = startPosition;
-                startPosition = transform.position;
+                startPosition = transform.localPosition;
 
                 StartCoroutine(Move(waitTime));
             }

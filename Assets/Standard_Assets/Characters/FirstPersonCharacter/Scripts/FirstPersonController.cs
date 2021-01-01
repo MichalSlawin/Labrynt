@@ -49,6 +49,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
         private void OnTriggerEnter(Collider other)
         {
+            Debug.Log(other.tag);
             if (other.transform.CompareTag("Death"))
             {
                 TeleportPlayerTo(startingPosition);

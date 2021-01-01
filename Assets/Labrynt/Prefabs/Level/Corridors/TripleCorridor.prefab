@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7047337390993901487}
+  - component: {fileID: 3982987020954632550}
   m_Layer: 0
   m_Name: TripleCorridor
   m_TagString: Untagged
@@ -33,6 +34,25 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3982987020954632550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3254525274163988311}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be50b9ee67c120046877b433405a9114, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jointsNum: 1
+  joint1OffsetX: -24
+  joint1OffsetZ: 0
+  joint2OffsetX: 0
+  joint2OffsetZ: 0
+  joint3OffsetX: 0
+  joint3OffsetZ: 0
 --- !u!1001 &2182968975737930606
 PrefabInstance:
   m_ObjectHideFlags: 0
