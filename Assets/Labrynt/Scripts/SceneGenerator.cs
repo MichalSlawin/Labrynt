@@ -14,19 +14,68 @@ public class SceneGenerator : MonoBehaviour
     public Trap fallingSandTrapPrefab;
     public Trap bladesTrapPrefab;
     public Trap floorSpikesTrapPrefab;
+    public Trap horizontalBladesTrapPrefab;
+    public Trap tunnelBladesTrapPrefab;
+    public Trap wallSpikesTrapPrefab;
+    public Trap fallingTrapPrefab;
+    public Trap doubleFallingTrapPrefab;
 
     private Corridor lastPlaced;
+    private List<Trap> traps;
+
+    private static System.Random random = new System.Random();
+
+    //--------------------------------------------------------------------------------------
 
     // Start is called before the first frame update
     void Start()
     {
+        InitializeTrapsList();
+
         lastPlaced = start;
 
-        PlaceCorridorFrontally(bladesTrapPrefab);
-        PlaceCorridorFrontally(corridor4x4Prefab);
-        PlaceCorridorFrontally(floorSpikesTrapPrefab);
+        PlaceObstacleCourse(10, false);
+
         PlaceCorridorBackwards(finishEndPrefab);
     }
+
+    //--------------------------------------------------------------------------------------
+
+    private void InitializeTrapsList()
+    {
+        traps = new List<Trap>
+        {
+            fallingSandTrapPrefab,
+            bladesTrapPrefab,
+            floorSpikesTrapPrefab,
+            horizontalBladesTrapPrefab,
+            tunnelBladesTrapPrefab,
+            wallSpikesTrapPrefab,
+            fallingTrapPrefab,
+            doubleFallingTrapPrefab
+        };
+    }
+
+    //--------------------------------------------------------------------------------------
+
+    private void PlaceRandomTrap()
+    {
+        int randNum = random.Next(traps.Count);
+        PlaceCorridorFrontally(traps[randNum]);
+    }
+
+    //--------------------------------------------------------------------------------------
+
+    private void PlaceObstacleCourse(int trapsNum, bool separated)
+    {
+        for (int i = 0; i < trapsNum; i++)
+        {
+            PlaceRandomTrap();
+            if(separated) PlaceCorridorFrontally(corridor4x4Prefab);
+        }
+    }
+
+    //--------------------------------------------------------------------------------------
 
     private void PlaceCorridor(Corridor corridorPrefab, Quaternion rotation)
     {
@@ -35,10 +84,14 @@ public class SceneGenerator : MonoBehaviour
             rotation);
     }
 
+    //--------------------------------------------------------------------------------------
+
     private void PlaceCorridorFrontally(Corridor corridorPrefab)
     {
         PlaceCorridor(corridorPrefab, Quaternion.identity);
     }
+
+    //--------------------------------------------------------------------------------------
 
     private void PlaceCorridorBackwards(Corridor corridorPrefab)
     {

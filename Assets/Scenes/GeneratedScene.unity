@@ -303,6 +303,16 @@ MonoBehaviour:
     type: 3}
   floorSpikesTrapPrefab: {fileID: 8681780014038036116, guid: 1cd45dc8c78a56b4a8a9d471d2e9a57a,
     type: 3}
+  horizontalBladesTrapPrefab: {fileID: -7153306403480934137, guid: d529b2f624469be49a2806d3b4ab8d37,
+    type: 3}
+  tunnelBladesTrapPrefab: {fileID: -9190967968592170519, guid: 371d3802bfb4f5240933dd841605af8e,
+    type: 3}
+  wallSpikesTrapPrefab: {fileID: 7625977754345109811, guid: 65add7656eec8524cb726f663f1d9e8c,
+    type: 3}
+  fallingTrapPrefab: {fileID: 7929764289818338014, guid: 3a79e852622d85044ba7f1fc748d306e,
+    type: 3}
+  doubleFallingTrapPrefab: {fileID: 3573840277015022085, guid: d73c2c2aea68d4247892bd968b4327a7,
+    type: 3}
 --- !u!4 &1340078089 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 957504424441879308, guid: 7bde73fca80e8da4ab8d3f4bf29ef209,
