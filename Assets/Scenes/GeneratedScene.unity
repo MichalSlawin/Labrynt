@@ -293,7 +293,15 @@ MonoBehaviour:
     type: 3}
   tripleCorridorPrefab: {fileID: 3982987020954632550, guid: 791d2bb8c637c494dbe87e6a2a3aa0f8,
     type: 3}
-  fallingSandTrapPrefab: {fileID: 163190632383071272, guid: 6954f09245dfc014786b510e3ae11c04,
+  finishEndPrefab: {fileID: 4898072144737374781, guid: d30af44a948e97f42a273e52bddb107a,
+    type: 3}
+  corridor4x4Prefab: {fileID: 4850484128697866969, guid: d71b72ce384352b4a81d23b7fa527019,
+    type: 3}
+  fallingSandTrapPrefab: {fileID: 1519489842026924276, guid: 6954f09245dfc014786b510e3ae11c04,
+    type: 3}
+  bladesTrapPrefab: {fileID: 2955593683425747687, guid: 305379dc20dcde64397bc187d855b428,
+    type: 3}
+  floorSpikesTrapPrefab: {fileID: 8681780014038036116, guid: 1cd45dc8c78a56b4a8a9d471d2e9a57a,
     type: 3}
 --- !u!4 &1340078089 stripped
 Transform:

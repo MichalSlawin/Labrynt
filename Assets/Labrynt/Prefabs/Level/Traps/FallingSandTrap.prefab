@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9123941000332602712}
-  - component: {fileID: 163190632383071272}
+  - component: {fileID: 1519489842026924276}
   m_Layer: 0
   m_Name: FallingSandTrap
   m_TagString: Untagged
@@ -36,7 +36,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &163190632383071272
+--- !u!114 &1519489842026924276
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -45,17 +45,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 236229290373805249}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be50b9ee67c120046877b433405a9114, type: 3}
+  m_Script: {fileID: 11500000, guid: 2affdb5920560d440a59367a49ffd11a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jointsNum: 1
   joint1OffsetX: -20
   joint1OffsetZ: 0
-  joint2OffsetX: 0
-  joint2OffsetZ: 0
-  joint3OffsetX: 0
-  joint3OffsetZ: 0
-  isTrap: 1
 --- !u!65 &1016426738282527595
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -67,8 +61,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 8.8827305, y: 2.0754523, z: 4.251307}
-  m_Center: {x: -3.0512323, y: -0.01338172, z: -0.8831842}
+  m_Size: {x: 8.8827305, y: 2.6514125, z: 4.251307}
+  m_Center: {x: -3.0512323, y: 0.27459836, z: -0.8831842}
 --- !u!1 &7773476135146228807
 GameObject:
   m_ObjectHideFlags: 0
@@ -93,7 +87,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7773476135146228807}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3, y: -36, z: 2}
+  m_LocalPosition: {x: 5, y: -36, z: 2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3231113229231722432}
@@ -165,7 +159,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9044971425843126555}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 2, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3208298696155135605}
@@ -1358,7 +1352,7 @@ PrefabInstance:
     - target: {fileID: 3916291922992441089, guid: a8b750fff58d2284c9616d85c394f47c,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -10
+      value: -8
       objectReference: {fileID: 0}
     - target: {fileID: 3916291922992441089, guid: a8b750fff58d2284c9616d85c394f47c,
         type: 3}
@@ -1414,6 +1408,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Floor2x4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6171292771437222328, guid: a8b750fff58d2284c9616d85c394f47c,
+        type: 3}
+      propertyPath: m_TagString
+      value: DisappearingFloor
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a8b750fff58d2284c9616d85c394f47c, type: 3}
