@@ -10,6 +10,8 @@ public class SceneGenerator : MonoBehaviour
     public Corridor tripleCorridorPrefab;
     public Corridor finishEndPrefab;
     public Corridor corridor4x4Prefab;
+    public Corridor turnCorridorPrefab;
+    public Corridor3Ways corridor3WaysPrefab;
 
     public Trap fallingSandTrapPrefab;
     public Trap bladesTrapPrefab;
@@ -22,6 +24,7 @@ public class SceneGenerator : MonoBehaviour
 
     private Corridor lastPlaced;
     private List<Trap> traps;
+    private Corridor lastPlacedTemp;
 
     private static System.Random random = new System.Random();
 
@@ -34,9 +37,13 @@ public class SceneGenerator : MonoBehaviour
 
         lastPlaced = start;
 
-        PlaceObstacleCourse(10, false);
-
-        PlaceCorridorBackwards(finishEndPrefab);
+        lastPlaced = PlaceCorridorFrontally(corridor3WaysPrefab, lastPlaced);
+        lastPlacedTemp = lastPlaced;
+        lastPlaced = PlaceCorridorLeft(corridor3WaysPrefab, lastPlaced);
+        lastPlacedTemp = PlaceCorridorRight(corridor3WaysPrefab, lastPlacedTemp);
+        PlaceCorridorFrontally(corridor3WaysPrefab, lastPlacedTemp);
+        lastPlaced = PlaceCorridorFrontally(corridor3WaysPrefab, lastPlaced);
+        PlaceCorridorBackwards(finishEndPrefab, lastPlaced);
     }
 
     //--------------------------------------------------------------------------------------
@@ -58,45 +65,97 @@ public class SceneGenerator : MonoBehaviour
 
     //--------------------------------------------------------------------------------------
 
-    private void PlaceRandomTrap()
+    private void PlaceRandomTrapFrontally()
     {
         int randNum = random.Next(traps.Count);
-        PlaceCorridorFrontally(traps[randNum]);
+        PlaceCorridorFrontally(traps[randNum], lastPlaced);
     }
 
     //--------------------------------------------------------------------------------------
 
-    private void PlaceObstacleCourse(int trapsNum, bool separated)
+    private void PlaceObstacleCourseFrontally(int trapsNum, bool separated)
     {
         for (int i = 0; i < trapsNum; i++)
         {
-            PlaceRandomTrap();
-            if(separated) PlaceCorridorFrontally(corridor4x4Prefab);
+            PlaceRandomTrapFrontally();
+            if(separated) PlaceCorridorFrontally(corridor4x4Prefab, lastPlaced);
         }
     }
 
     //--------------------------------------------------------------------------------------
 
-    private void PlaceCorridor(Corridor corridorPrefab, Quaternion rotation)
+    private Corridor PlaceCorridor(Corridor corridorPrefab, Quaternion rotation, int offsetX, int offsetZ, Corridor addToCorridor = null)
     {
-        lastPlaced = Instantiate(corridorPrefab,
-            new Vector3(lastPlaced.transform.position.x + lastPlaced.joint1OffsetX, lastPlaced.transform.position.y, lastPlaced.transform.position.z + lastPlaced.joint1OffsetZ),
+        if (addToCorridor == null) addToCorridor = lastPlaced;
+
+        return Instantiate(corridorPrefab,
+            new Vector3(addToCorridor.transform.position.x + offsetX, addToCorridor.transform.position.y, addToCorridor.transform.position.z + offsetZ),
             rotation);
     }
 
     //--------------------------------------------------------------------------------------
 
-    private void PlaceCorridorFrontally(Corridor corridorPrefab)
+    private Corridor PlaceCorridorFrontally(Corridor corridorPrefab, Corridor addToCorridor)
     {
-        PlaceCorridor(corridorPrefab, Quaternion.identity);
+        return PlaceCorridor(corridorPrefab, Quaternion.identity, addToCorridor.joint1OffsetX, addToCorridor.joint1OffsetZ, addToCorridor);
     }
 
     //--------------------------------------------------------------------------------------
 
-    private void PlaceCorridorBackwards(Corridor corridorPrefab)
+    private Corridor PlaceCorridorBackwards(Corridor corridorPrefab, Corridor addToCorridor)
     {
-        lastPlaced.joint1OffsetX += corridorPrefab.joint1OffsetX + 2;
-        lastPlaced.joint1OffsetZ -= 2;
-        PlaceCorridor(corridorPrefab, Quaternion.Euler(0f, 180f, 0f));
+        addToCorridor.joint1OffsetX += corridorPrefab.joint1OffsetX + 2;
+        addToCorridor.joint1OffsetZ -= 2;
+        return PlaceCorridor(corridorPrefab, Quaternion.Euler(0f, 180f, 0f), addToCorridor.joint1OffsetX, addToCorridor.joint1OffsetZ, addToCorridor);
+    }
+
+    //--------------------------------------------------------------------------------------
+
+    private Corridor PlaceCorridorLeft(Corridor corridorPrefab, Corridor addToCorridor)
+    {
+        int offsetX = 0;
+        int offsetZ = 0;
+        if (addToCorridor is Corridor3Ways)
+        {
+            Corridor3Ways lastPlaced3Ways = addToCorridor.GetComponent<Corridor3Ways>();
+            offsetX = lastPlaced3Ways.jointLeftOffsetX;
+            offsetZ = lastPlaced3Ways.jointLeftOffsetZ;
+
+            Corridor placedCorridor = PlaceCorridor(corridorPrefab, Quaternion.Euler(0f, -90f, 0f), offsetX, offsetZ, addToCorridor);
+
+            placedCorridor.joint1OffsetX = -lastPlaced3Ways.jointRightOffsetZ;
+            placedCorridor.joint1OffsetZ = lastPlaced3Ways.jointRightOffsetX;
+
+            return placedCorridor;
+        }
+        else
+        {
+            throw new System.Exception("Placing corridor left failed");
+        }
+    }
+
+    //--------------------------------------------------------------------------------------
+
+    private Corridor PlaceCorridorRight(Corridor corridorPrefab, Corridor addToCorridor)
+    {
+        int offsetX = 0;
+        int offsetZ = 0;
+        if (addToCorridor is Corridor3Ways)
+        {
+            Corridor3Ways lastPlaced3Ways = addToCorridor.GetComponent<Corridor3Ways>();
+            offsetX = lastPlaced3Ways.jointRightOffsetX;
+            offsetZ = lastPlaced3Ways.jointRightOffsetZ;
+
+            Corridor placedCorridor = PlaceCorridor(corridorPrefab, Quaternion.Euler(0f, 90f, 0f), offsetX, offsetZ, addToCorridor);
+
+            placedCorridor.joint1OffsetX = lastPlaced3Ways.jointLeftOffsetZ;
+            placedCorridor.joint1OffsetZ = -lastPlaced3Ways.jointLeftOffsetX;
+
+            return placedCorridor;
+        }
+        else
+        {
+            throw new System.Exception("Placing corridor right failed");
+        }
     }
 }
