@@ -25,6 +25,12 @@ public class SceneGenerator : MonoBehaviour
     private Corridor lastPlaced;
     private List<Trap> traps;
     private Corridor lastPlacedTemp;
+    private bool finishPlaced = false;
+    private int placedCorridorsCount = 0;
+
+    private const int MIN_CORRIDORS_IN_LINE_NUM = 3;
+    private const int MAX_CORRIDORS_IN_LINE_NUM = 7;
+    private const int PLACE_FINISH_AFTER = 10;
 
     private static System.Random random = new System.Random();
 
@@ -36,14 +42,163 @@ public class SceneGenerator : MonoBehaviour
         InitializeTrapsList();
 
         lastPlaced = start;
-
+        lastPlaced = PlaceRandomTrapFrontally();
         lastPlaced = PlaceCorridorFrontally(corridor3WaysPrefab, lastPlaced);
         lastPlacedTemp = lastPlaced;
-        lastPlaced = PlaceCorridorLeft(corridor3WaysPrefab, lastPlaced);
-        lastPlacedTemp = PlaceCorridorRight(corridor3WaysPrefab, lastPlacedTemp);
-        PlaceCorridorFrontally(corridor3WaysPrefab, lastPlacedTemp);
-        lastPlaced = PlaceCorridorFrontally(corridor3WaysPrefab, lastPlaced);
-        PlaceCorridorBackwards(finishEndPrefab, lastPlaced);
+        GenerateMazeLeft(lastPlacedTemp, 1);
+        GenerateMazeRight(lastPlacedTemp, 1);
+
+        GenerateMaze(lastPlacedTemp, 1);
+
+        if(!finishPlaced)
+        {
+            Debug.Log("No finish!");
+        }
+    }
+
+    //--------------------------------------------------------------------------------------
+
+    private void GenerateMaze(Corridor addToCorridor, int placedInRow)
+    {
+        int randNum = random.Next(1, 6);
+        
+        if(randNum == 1)
+        {
+            lastPlaced = PlaceCorridorFrontally(corridor3WaysPrefab, addToCorridor);
+            lastPlacedTemp = lastPlaced;
+            GenerateMazeLeft(lastPlacedTemp, 1);
+            GenerateMazeRight(lastPlacedTemp, 1);
+            lastPlaced = lastPlacedTemp;
+        }
+        else if (randNum >= 2 && randNum <= 3)
+        {
+            lastPlaced = PlaceCorridorFrontally(corridor4x4Prefab, addToCorridor);
+        }
+        else if (randNum >= 4)
+        {
+            lastPlaced = PlaceCorridorFrontally(GetRandomTrap(), addToCorridor);
+        }
+
+        randNum = random.Next(1, 3);
+
+        if(placedInRow >= MAX_CORRIDORS_IN_LINE_NUM || (randNum == 2 && placedInRow >= MIN_CORRIDORS_IN_LINE_NUM))
+        {
+            PlaceClosedCorridor();
+        }
+        else
+        {
+            GenerateMaze(lastPlaced, ++placedInRow);
+        }
+    }
+
+    //--------------------------------------------------------------------------------------
+
+    private void PlaceClosedCorridor()
+    {
+        int randNum = random.Next(1, 3);
+        if (placedCorridorsCount > PLACE_FINISH_AFTER && !finishPlaced && randNum == 2)
+        {
+            PlaceCorridorBackwards(finishEndPrefab, lastPlaced);
+            finishPlaced = true;
+        }
+        else
+        {
+            PlaceCorridorBackwards(deadEndPrefab, lastPlaced);
+        }
+    }
+
+    //--------------------------------------------------------------------------------------
+
+    private void GenerateMazeLeft(Corridor addToCorridor, int placedInRow)
+    {
+        int randNum = random.Next(1, 6);
+
+        if (randNum == 1)
+        {
+            lastPlaced = PlaceCorridorLeft(corridor3WaysPrefab, addToCorridor);
+        }
+        else if (randNum >= 2 && randNum <= 3)
+        {
+            lastPlaced = PlaceCorridorLeft(corridor4x4Prefab, addToCorridor);
+        }
+        else if (randNum >= 4)
+        {
+            lastPlaced = PlaceCorridorLeft(GetRandomTrap(), addToCorridor);
+        }
+
+        randNum = random.Next(1, 3);
+
+        if (placedInRow >= MAX_CORRIDORS_IN_LINE_NUM || (randNum == 2 && placedInRow >= MIN_CORRIDORS_IN_LINE_NUM))
+        {
+            PlaceClosedCorridorLeft();
+        }
+        else
+        {
+            GenerateMazeLeft(lastPlaced, ++placedInRow);
+        }
+    }
+
+    //--------------------------------------------------------------------------------------
+
+    private void PlaceClosedCorridorLeft()
+    {
+        int randNum = random.Next(1, 3);
+        if (placedCorridorsCount > PLACE_FINISH_AFTER && !finishPlaced && randNum == 2)
+        {
+            PlaceCorridorLeft(finishEndPrefab, lastPlaced, true);
+            finishPlaced = true;
+        }
+        else
+        {
+            PlaceCorridorLeft(deadEndPrefab, lastPlaced, true);
+        }
+    }
+
+    //--------------------------------------------------------------------------------------
+
+    private void GenerateMazeRight(Corridor addToCorridor, int placedInRow)
+    {
+        int randNum = random.Next(1, 6);
+
+        if (randNum == 1)
+        {
+            lastPlaced = PlaceCorridorRight(corridor3WaysPrefab, addToCorridor);
+        }
+        else if (randNum >= 2 && randNum <= 3)
+        {
+            lastPlaced = PlaceCorridorRight(corridor4x4Prefab, addToCorridor);
+        }
+        else if (randNum >= 4)
+        {
+            lastPlaced = PlaceCorridorRight(GetRandomTrap(), addToCorridor);
+        }
+
+        randNum = random.Next(1, 3);
+
+        if (placedInRow >= MAX_CORRIDORS_IN_LINE_NUM || (randNum == 2 && placedInRow >= MIN_CORRIDORS_IN_LINE_NUM))
+        {
+            PlaceClosedCorridorRight();
+        }
+        else
+        {
+            GenerateMazeRight(lastPlaced, ++placedInRow);
+        }
+    }
+
+    //--------------------------------------------------------------------------------------
+
+    private void PlaceClosedCorridorRight()
+    {
+        int randNum = random.Next(1, 3);
+        if (placedCorridorsCount > PLACE_FINISH_AFTER && !finishPlaced && randNum == 2)
+        {
+            PlaceCorridorRight(finishEndPrefab, lastPlaced, true);
+            finishPlaced = true;
+        }
+        else
+        {
+            PlaceCorridorRight(deadEndPrefab, lastPlaced, true);
+        }
     }
 
     //--------------------------------------------------------------------------------------
@@ -65,10 +220,17 @@ public class SceneGenerator : MonoBehaviour
 
     //--------------------------------------------------------------------------------------
 
-    private void PlaceRandomTrapFrontally()
+    private Corridor PlaceRandomTrapFrontally()
+    {
+        return PlaceCorridorFrontally(GetRandomTrap(), lastPlaced);
+    }
+
+    //--------------------------------------------------------------------------------------
+
+    private Trap GetRandomTrap()
     {
         int randNum = random.Next(traps.Count);
-        PlaceCorridorFrontally(traps[randNum], lastPlaced);
+        return traps[randNum];
     }
 
     //--------------------------------------------------------------------------------------
@@ -87,6 +249,8 @@ public class SceneGenerator : MonoBehaviour
     private Corridor PlaceCorridor(Corridor corridorPrefab, Quaternion rotation, int offsetX, int offsetZ, Corridor addToCorridor = null)
     {
         if (addToCorridor == null) addToCorridor = lastPlaced;
+
+        placedCorridorsCount++;
 
         return Instantiate(corridorPrefab,
             new Vector3(addToCorridor.transform.position.x + offsetX, addToCorridor.transform.position.y, addToCorridor.transform.position.z + offsetZ),
@@ -111,51 +275,84 @@ public class SceneGenerator : MonoBehaviour
 
     //--------------------------------------------------------------------------------------
 
-    private Corridor PlaceCorridorLeft(Corridor corridorPrefab, Corridor addToCorridor)
+    private Corridor PlaceCorridorLeft(Corridor corridorPrefab, Corridor addToCorridor, bool backwards = false)
     {
-        int offsetX = 0;
-        int offsetZ = 0;
+        int offsetX = addToCorridor.joint1OffsetZ;
+        int offsetZ = addToCorridor.joint1OffsetX;
         if (addToCorridor is Corridor3Ways)
         {
             Corridor3Ways lastPlaced3Ways = addToCorridor.GetComponent<Corridor3Ways>();
             offsetX = lastPlaced3Ways.jointLeftOffsetX;
             offsetZ = lastPlaced3Ways.jointLeftOffsetZ;
-
-            Corridor placedCorridor = PlaceCorridor(corridorPrefab, Quaternion.Euler(0f, -90f, 0f), offsetX, offsetZ, addToCorridor);
-
-            placedCorridor.joint1OffsetX = -lastPlaced3Ways.jointRightOffsetZ;
-            placedCorridor.joint1OffsetZ = lastPlaced3Ways.jointRightOffsetX;
-
-            return placedCorridor;
         }
-        else
+
+        Quaternion rotation = Quaternion.Euler(0f, -90f, 0f);
+        if(backwards)
         {
-            throw new System.Exception("Placing corridor left failed");
+            offsetX += 2;
+            offsetZ += corridorPrefab.joint1OffsetX + 2;
+            rotation = Quaternion.Euler(0f, 90f, 0f);
         }
+
+        Corridor placedCorridor = PlaceCorridor(corridorPrefab, rotation, offsetX, offsetZ, addToCorridor);
+
+        int offsetXTemp = placedCorridor.joint1OffsetX;
+        int offsetZTemp = placedCorridor.joint1OffsetZ;
+        
+        if(placedCorridor is Corridor3Ways)
+        {
+            Corridor3Ways placedCorridor3Ways = placedCorridor.GetComponent<Corridor3Ways>();
+
+            placedCorridor.joint1OffsetX = -placedCorridor3Ways.jointRightOffsetZ;
+            placedCorridor.joint1OffsetZ = placedCorridor3Ways.jointRightOffsetX;
+
+            placedCorridor3Ways.jointLeftOffsetX = offsetZTemp;
+            placedCorridor3Ways.jointLeftOffsetZ = offsetXTemp;
+        }
+
+        return placedCorridor;
     }
 
     //--------------------------------------------------------------------------------------
 
-    private Corridor PlaceCorridorRight(Corridor corridorPrefab, Corridor addToCorridor)
+    private Corridor PlaceCorridorRight(Corridor corridorPrefab, Corridor addToCorridor, bool backwards = false)
     {
-        int offsetX = 0;
-        int offsetZ = 0;
+        int offsetX = addToCorridor.joint1OffsetZ;
+        int offsetZ = -addToCorridor.joint1OffsetX;
         if (addToCorridor is Corridor3Ways)
         {
             Corridor3Ways lastPlaced3Ways = addToCorridor.GetComponent<Corridor3Ways>();
             offsetX = lastPlaced3Ways.jointRightOffsetX;
             offsetZ = lastPlaced3Ways.jointRightOffsetZ;
-
-            Corridor placedCorridor = PlaceCorridor(corridorPrefab, Quaternion.Euler(0f, 90f, 0f), offsetX, offsetZ, addToCorridor);
-
-            placedCorridor.joint1OffsetX = lastPlaced3Ways.jointLeftOffsetZ;
-            placedCorridor.joint1OffsetZ = -lastPlaced3Ways.jointLeftOffsetX;
-
-            return placedCorridor;
         }
-        else
+        Quaternion rotation = Quaternion.Euler(0f, 90f, 0f);
+        if (backwards)
         {
-            throw new System.Exception("Placing corridor right failed");
+            offsetX -= 2;
+            offsetZ -= corridorPrefab.joint1OffsetX + 2;
+            rotation = Quaternion.Euler(0f, -90f, 0f);
         }
+
+        Corridor placedCorridor = PlaceCorridor(corridorPrefab, rotation, offsetX, offsetZ, addToCorridor);
+
+        int offsetXTemp = placedCorridor.joint1OffsetX;
+        int offsetZTemp = placedCorridor.joint1OffsetZ;
+
+        if (placedCorridor is Corridor3Ways)
+        {
+            Corridor3Ways placedCorridor3Ways = placedCorridor.GetComponent<Corridor3Ways>();
+
+            placedCorridor.joint1OffsetX = placedCorridor3Ways.jointLeftOffsetZ;
+            placedCorridor.joint1OffsetZ = -placedCorridor3Ways.jointLeftOffsetX;
+
+            placedCorridor3Ways.jointRightOffsetX = offsetZTemp;
+            placedCorridor3Ways.jointRightOffsetZ = -offsetXTemp;
+        }
+
+        return placedCorridor;
     }
+
+    //--------------------------------------------------------------------------------------
+
+    
 }
