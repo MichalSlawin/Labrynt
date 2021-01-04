@@ -301,6 +301,8 @@ MonoBehaviour:
     type: 3}
   corridor3WaysPrefab: {fileID: 2385392465642444309, guid: 1ae74a1aa41f89a429328c63f5190591,
     type: 3}
+  corridor3WaysShortPrefab: {fileID: 2385392465642444309, guid: 50b2c77ae4a749340ac674e035f4622e,
+    type: 3}
   fallingSandTrapPrefab: {fileID: 1519489842026924276, guid: 6954f09245dfc014786b510e3ae11c04,
     type: 3}
   bladesTrapPrefab: {fileID: 2955593683425747687, guid: 305379dc20dcde64397bc187d855b428,

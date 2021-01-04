@@ -12,6 +12,7 @@ public class SceneGenerator : MonoBehaviour
     public Corridor corridor4x4Prefab;
     public Corridor turnCorridorPrefab;
     public Corridor3Ways corridor3WaysPrefab;
+    public Corridor3Ways corridor3WaysShortPrefab;
 
     public Trap fallingSandTrapPrefab;
     public Trap bladesTrapPrefab;
@@ -24,13 +25,19 @@ public class SceneGenerator : MonoBehaviour
 
     private Corridor lastPlaced;
     private List<Trap> traps;
-    private Corridor lastPlacedTemp;
     private bool finishPlaced = false;
     private int placedCorridorsCount = 0;
+    private GameController gameController;
+    private bool canBuildLeft = true;
+    private bool canBuildRight = true;
+    private List<Vector3> occupiedPositions;
 
     private const int MIN_CORRIDORS_IN_LINE_NUM = 3;
-    private const int MAX_CORRIDORS_IN_LINE_NUM = 7;
-    private const int PLACE_FINISH_AFTER = 10;
+    private const int MAX_CORRIDORS_IN_LINE_NUM = 5;
+    private const int PLACE_FINISH_AFTER = 20;
+    private const int MAX_PLACED_CORRIDORS = 100;
+    private const int RAND_CORRIDOR_MIN_NUM = 1;
+    private const int RAND_CORRIDOR_MAX_NUM = 8;
 
     private static System.Random random = new System.Random();
 
@@ -39,35 +46,51 @@ public class SceneGenerator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        gameController = FindObjectOfType<GameController>();
+        if (gameController == null) throw new System.Exception("Game controller not found!");
+
         InitializeTrapsList();
+        InitializeOccupiedPositionsList();
 
         lastPlaced = start;
         lastPlaced = PlaceRandomTrapFrontally();
-        lastPlaced = PlaceCorridorFrontally(corridor3WaysPrefab, lastPlaced);
-        lastPlacedTemp = lastPlaced;
+        lastPlaced = PlaceCorridorFrontally(corridor3WaysShortPrefab, lastPlaced);
+        Corridor lastPlacedTemp = lastPlaced;
         GenerateMazeLeft(lastPlacedTemp, 1);
         GenerateMazeRight(lastPlacedTemp, 1);
 
-        GenerateMaze(lastPlacedTemp, 1);
+        canBuildLeft = canBuildRight = false;
+        GenerateMazeUp(lastPlacedTemp, 1);
 
         if(!finishPlaced)
         {
             Debug.Log("No finish!");
+            gameController.RestartScene();
         }
     }
 
     //--------------------------------------------------------------------------------------
 
-    private void GenerateMaze(Corridor addToCorridor, int placedInRow)
+    private void InitializeOccupiedPositionsList()
     {
-        int randNum = random.Next(1, 6);
+        occupiedPositions = new List<Vector3>
+        {
+            start.transform.position
+        };
+    }
+
+    //--------------------------------------------------------------------------------------
+
+    private void GenerateMazeUp(Corridor addToCorridor, int placedInRow)
+    {
+        int randNum = random.Next(RAND_CORRIDOR_MIN_NUM, RAND_CORRIDOR_MAX_NUM);
         
         if(randNum == 1)
         {
-            lastPlaced = PlaceCorridorFrontally(corridor3WaysPrefab, addToCorridor);
-            lastPlacedTemp = lastPlaced;
-            GenerateMazeLeft(lastPlacedTemp, 1);
-            GenerateMazeRight(lastPlacedTemp, 1);
+            lastPlaced = PlaceCorridorFrontally(corridor3WaysShortPrefab, addToCorridor);
+            Corridor lastPlacedTemp = lastPlaced;
+            if(canBuildLeft) GenerateMazeLeft(lastPlacedTemp, 1);
+            if(canBuildRight) GenerateMazeRight(lastPlacedTemp, 1);
             lastPlaced = lastPlacedTemp;
         }
         else if (randNum >= 2 && randNum <= 3)
@@ -83,17 +106,17 @@ public class SceneGenerator : MonoBehaviour
 
         if(placedInRow >= MAX_CORRIDORS_IN_LINE_NUM || (randNum == 2 && placedInRow >= MIN_CORRIDORS_IN_LINE_NUM))
         {
-            PlaceClosedCorridor();
+            PlaceClosedCorridorUp();
         }
         else
         {
-            GenerateMaze(lastPlaced, ++placedInRow);
+            GenerateMazeUp(lastPlaced, ++placedInRow);
         }
     }
 
     //--------------------------------------------------------------------------------------
 
-    private void PlaceClosedCorridor()
+    private void PlaceClosedCorridorUp()
     {
         int randNum = random.Next(1, 3);
         if (placedCorridorsCount > PLACE_FINISH_AFTER && !finishPlaced && randNum == 2)
@@ -109,13 +132,34 @@ public class SceneGenerator : MonoBehaviour
 
     //--------------------------------------------------------------------------------------
 
+    private void GenerateMazeDown(Corridor addToCorridor, int placedInRow)
+    {
+        
+    }
+
+    //--------------------------------------------------------------------------------------
+
+    private void PlaceClosedCorridorDown()
+    {
+        
+    }
+
+    //--------------------------------------------------------------------------------------
+
     private void GenerateMazeLeft(Corridor addToCorridor, int placedInRow)
     {
-        int randNum = random.Next(1, 6);
+        int randNum = random.Next(RAND_CORRIDOR_MIN_NUM, RAND_CORRIDOR_MAX_NUM);
 
         if (randNum == 1)
         {
-            lastPlaced = PlaceCorridorLeft(corridor3WaysPrefab, addToCorridor);
+            lastPlaced = PlaceCorridorLeft(corridor3WaysShortPrefab, addToCorridor);
+            Corridor lastPlacedTemp = lastPlaced;
+
+            canBuildLeft = canBuildRight = false;
+            GenerateMazeUp(lastPlacedTemp, 1);
+            canBuildLeft = canBuildRight = true;
+
+            lastPlaced = lastPlacedTemp;
         }
         else if (randNum >= 2 && randNum <= 3)
         {
@@ -158,11 +202,18 @@ public class SceneGenerator : MonoBehaviour
 
     private void GenerateMazeRight(Corridor addToCorridor, int placedInRow)
     {
-        int randNum = random.Next(1, 6);
+        int randNum = random.Next(RAND_CORRIDOR_MIN_NUM, RAND_CORRIDOR_MAX_NUM);
 
         if (randNum == 1)
         {
-            lastPlaced = PlaceCorridorRight(corridor3WaysPrefab, addToCorridor);
+            lastPlaced = PlaceCorridorRight(corridor3WaysShortPrefab, addToCorridor);
+            Corridor lastPlacedTemp = lastPlaced;
+
+            canBuildLeft = canBuildRight = false;
+            GenerateMazeUp(lastPlacedTemp, 1);
+            canBuildLeft = canBuildRight = true;
+
+            lastPlaced = lastPlacedTemp;
         }
         else if (randNum >= 2 && randNum <= 3)
         {
@@ -251,10 +302,22 @@ public class SceneGenerator : MonoBehaviour
         if (addToCorridor == null) addToCorridor = lastPlaced;
 
         placedCorridorsCount++;
-
-        return Instantiate(corridorPrefab,
-            new Vector3(addToCorridor.transform.position.x + offsetX, addToCorridor.transform.position.y, addToCorridor.transform.position.z + offsetZ),
-            rotation);
+        if(placedCorridorsCount > MAX_PLACED_CORRIDORS)
+        {
+            Debug.Log("Too many corridors");
+            gameController.RestartScene();
+        }
+        
+        Vector3 newPosition = new Vector3(addToCorridor.transform.position.x + offsetX, addToCorridor.transform.position.y, addToCorridor.transform.position.z + offsetZ);
+        if(occupiedPositions.Contains(newPosition))
+        {
+            return lastPlaced;
+        }
+        else
+        {
+            occupiedPositions.Add(newPosition);
+            return Instantiate(corridorPrefab, newPosition, rotation);
+        }
     }
 
     //--------------------------------------------------------------------------------------
