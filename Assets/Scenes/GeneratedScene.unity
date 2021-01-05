@@ -291,9 +291,13 @@ MonoBehaviour:
   start: {fileID: 1355849295}
   deadEndPrefab: {fileID: 1850672523683288619, guid: 7bde73fca80e8da4ab8d3f4bf29ef209,
     type: 3}
+  deadEndShortPrefab: {fileID: 1850672523683288619, guid: 4d4dfab7950f31d4fa83d129eebf0275,
+    type: 3}
   tripleCorridorPrefab: {fileID: 3982987020954632550, guid: 791d2bb8c637c494dbe87e6a2a3aa0f8,
     type: 3}
   finishEndPrefab: {fileID: 4898072144737374781, guid: d30af44a948e97f42a273e52bddb107a,
+    type: 3}
+  finishEndShortPrefab: {fileID: 4898072144737374781, guid: d5370f09cffe9f34697d10f34e49a094,
     type: 3}
   corridor4x4Prefab: {fileID: 4850484128697866969, guid: d71b72ce384352b4a81d23b7fa527019,
     type: 3}
