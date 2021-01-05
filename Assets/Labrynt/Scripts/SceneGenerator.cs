@@ -138,7 +138,7 @@ public class SceneGenerator : MonoBehaviour
 
     private void PlaceClosedCorridorUp()
     {
-        int randNum = random.Next(1, 3);
+        int randNum = random.Next(1, 4);
 
         Corridor lastPlacedTemp = PlaceCorridorFrontally(GetRandomTrap(), lastPlaced);
 
@@ -199,7 +199,7 @@ public class SceneGenerator : MonoBehaviour
     {
         Corridor lastPlacedTemp = PlaceCorridorDown(GetRandomTrap(), lastPlaced);
 
-        int randNum = random.Next(1, 3);
+        int randNum = random.Next(1, 4);
         if (placedCorridorsCount > placeFinishAfter && !finishPlaced && randNum == 2)
         {
             PlaceCorridorDown(finishEndShortPrefab, lastPlacedTemp);
@@ -260,7 +260,7 @@ public class SceneGenerator : MonoBehaviour
 
     private void PlaceClosedCorridorLeft()
     {
-        int randNum = random.Next(1, 3);
+        int randNum = random.Next(1, 4);
         if (placedCorridorsCount > placeFinishAfter && !finishPlaced && randNum == 2)
         {
             PlaceCorridorLeft(finishEndShortPrefab, lastPlaced, true);
@@ -321,7 +321,7 @@ public class SceneGenerator : MonoBehaviour
 
     private void PlaceClosedCorridorRight()
     {
-        int randNum = random.Next(1, 3);
+        int randNum = random.Next(1, 4);
         if (placedCorridorsCount > placeFinishAfter && !finishPlaced && randNum == 2)
         {
             PlaceCorridorRight(finishEndShortPrefab, lastPlaced, true);
