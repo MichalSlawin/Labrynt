@@ -67,7 +67,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
             if (other.transform.CompareTag("Finish"))
             {
-                gameController.ExitGame();
+                gameController.RestartScene();
             }
         }
 
