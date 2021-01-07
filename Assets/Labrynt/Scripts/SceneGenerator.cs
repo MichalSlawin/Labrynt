@@ -24,6 +24,8 @@ public class SceneGenerator : MonoBehaviour
     public Trap wallSpikesTrapPrefab;
     public Trap fallingTrapPrefab;
     public Trap doubleFallingTrapPrefab;
+    public Trap multipleFallingSandsTrapPrefab;
+    public Trap coveredFallingSandsTrapPrefab;
 
     private Corridor lastPlaced;
     private List<Trap> traps;
@@ -155,13 +157,13 @@ public class SceneGenerator : MonoBehaviour
 
     //--------------------------------------------------------------------------------------
 
-    private void GenerateMazeDown(Corridor addToCorridor, int placedInRow)
+    private void GenerateMazeDown(Corridor addToCorridor, int placedInRow, bool fromRight = false)
     {
         int randNum = random.Next(RAND_CORRIDOR_MIN_NUM, RAND_CORRIDOR_MAX_NUM);
 
         if (randNum == 1)
         {
-            lastPlaced = PlaceCorridorDown(corridor3WaysShortPrefab, addToCorridor);
+            lastPlaced = PlaceCorridorDown(corridor3WaysShortPrefab, addToCorridor, fromRight);
             Corridor lastPlacedTemp = lastPlaced;
 
             if (canBuildLeft) GenerateMazeLeft(lastPlacedTemp, 1);
@@ -174,11 +176,11 @@ public class SceneGenerator : MonoBehaviour
         }
         else if (randNum >= 2 && randNum <= 3)
         {
-            lastPlaced = PlaceCorridorDown(corridor4x4Prefab, addToCorridor);
+            lastPlaced = PlaceCorridorDown(corridor4x4Prefab, addToCorridor, fromRight);
         }
         else if (randNum >= 4)
         {
-            lastPlaced = PlaceCorridorDown(GetRandomTrap(), addToCorridor);
+            lastPlaced = PlaceCorridorDown(GetRandomTrap(), addToCorridor, fromRight);
         }
 
         randNum = random.Next(1, 3);
@@ -291,7 +293,7 @@ public class SceneGenerator : MonoBehaviour
             canBuildLeft = canBuildRight = false;
             GenerateMazeUp(lastPlacedTemp, 1);
             firstPlacedDown = true;
-            GenerateMazeDown(lastPlacedTemp, 1);
+            GenerateMazeDown(lastPlacedTemp, 1, true);
             canBuildLeft = canBuildRight = true;
 
             lastPlaced = lastPlacedTemp;
@@ -346,7 +348,9 @@ public class SceneGenerator : MonoBehaviour
             tunnelBladesTrapPrefab,
             wallSpikesTrapPrefab,
             fallingTrapPrefab,
-            doubleFallingTrapPrefab
+            doubleFallingTrapPrefab,
+            multipleFallingSandsTrapPrefab,
+            coveredFallingSandsTrapPrefab
         };
     }
 
@@ -497,7 +501,7 @@ public class SceneGenerator : MonoBehaviour
 
     //--------------------------------------------------------------------------------------
 
-    private Corridor PlaceCorridorDown(Corridor corridorPrefab, Corridor addToCorridor)
+    private Corridor PlaceCorridorDown(Corridor corridorPrefab, Corridor addToCorridor, bool fromRight = false)
     {
         int offsetX = -corridorPrefab.joint1OffsetX;
         int offsetZ = addToCorridor.joint1OffsetZ;
@@ -505,7 +509,8 @@ public class SceneGenerator : MonoBehaviour
         if (addToCorridor is Corridor3Ways && firstPlacedDown)
         {
             Corridor3Ways lastPlaced3Ways = addToCorridor.GetComponent<Corridor3Ways>();
-            offsetX = -lastPlaced3Ways.joint1OffsetX - corridorPrefab.joint1OffsetX - 4;
+            offsetX = -lastPlaced3Ways.joint1OffsetX - corridorPrefab.joint1OffsetX;
+            if (fromRight) offsetX -= 4;
             offsetZ = lastPlaced3Ways.joint1OffsetZ;
 
             firstPlacedDown = false;

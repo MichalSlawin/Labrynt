@@ -323,6 +323,10 @@ MonoBehaviour:
     type: 3}
   doubleFallingTrapPrefab: {fileID: 3573840277015022085, guid: d73c2c2aea68d4247892bd968b4327a7,
     type: 3}
+  multipleFallingSandsTrapPrefab: {fileID: 1519489842026924276, guid: 7bc9c0ef7a6eaa4439891d6b06c17268,
+    type: 3}
+  coveredFallingSandsTrapPrefab: {fileID: 1519489842026924276, guid: 8c3dbec037c109b46a5a8ab935466036,
+    type: 3}
 --- !u!4 &1340078089 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 957504424441879308, guid: 7bde73fca80e8da4ab8d3f4bf29ef209,
