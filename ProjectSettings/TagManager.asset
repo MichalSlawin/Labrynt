@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Death
   - DisappearingFloor
+  - Point
   layers:
   - Default
   - TransparentFX

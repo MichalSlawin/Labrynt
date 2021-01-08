@@ -13,6 +13,7 @@ public class SceneGenerator : MonoBehaviour
     public Corridor finishEndShortPrefab;
     public Corridor corridor4x4Prefab;
     public Corridor turnCorridorPrefab;
+    public Corridor pointEndShortPrefab;
     public Corridor3Ways corridor3WaysPrefab;
     public Corridor3Ways corridor3WaysShortPrefab;
 
@@ -154,7 +155,15 @@ public class SceneGenerator : MonoBehaviour
         }
         else
         {
-            PlaceCorridorBackwards(deadEndShortPrefab, lastPlacedTemp);
+            randNum = random.Next(1, 3);
+            if(randNum == 1)
+            {
+                PlaceCorridorBackwards(deadEndShortPrefab, lastPlacedTemp);
+            }
+            else
+            {
+                PlaceCorridorBackwards(pointEndShortPrefab, lastPlacedTemp);
+            }
         }
     }
 
@@ -212,7 +221,15 @@ public class SceneGenerator : MonoBehaviour
         }
         else
         {
-            PlaceCorridorDown(deadEndShortPrefab, lastPlacedTemp);
+            randNum = random.Next(1, 3);
+            if (randNum == 1)
+            {
+                PlaceCorridorDown(deadEndShortPrefab, lastPlacedTemp);
+            }
+            else
+            {
+                PlaceCorridorDown(pointEndShortPrefab, lastPlacedTemp);
+            }
         }
     }
 
@@ -273,7 +290,15 @@ public class SceneGenerator : MonoBehaviour
         }
         else
         {
-            PlaceCorridorLeft(deadEndShortPrefab, lastPlaced, true);
+            randNum = random.Next(1, 3);
+            if (randNum == 1)
+            {
+                PlaceCorridorLeft(deadEndShortPrefab, lastPlaced, true);
+            }
+            else
+            {
+                PlaceCorridorLeft(pointEndShortPrefab, lastPlaced, true);
+            }
         }
     }
 
@@ -334,7 +359,15 @@ public class SceneGenerator : MonoBehaviour
         }
         else
         {
-            PlaceCorridorRight(deadEndShortPrefab, lastPlaced, true);
+            randNum = random.Next(1, 3);
+            if (randNum == 1)
+            {
+                PlaceCorridorRight(deadEndShortPrefab, lastPlaced, true);
+            }
+            else
+            {
+                PlaceCorridorRight(pointEndShortPrefab, lastPlaced, true);
+            }
         }
     }
 

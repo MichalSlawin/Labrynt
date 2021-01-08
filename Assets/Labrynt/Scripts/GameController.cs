@@ -7,6 +7,8 @@ public class GameController : MonoBehaviour
 {
     private static float floorDissapearTime = 0.1f;
     private static float floorAppearTime = 1f;
+    private int points = 0;
+    private bool finished = false;
 
     private static int maxFps = 60;
     private GameObject player;
@@ -14,6 +16,17 @@ public class GameController : MonoBehaviour
     public static int MaxFps { get => maxFps; set => maxFps = value; }
     public static float FloorDissapearTime { get => floorDissapearTime; set => floorDissapearTime = value; }
     public static float FloorAppearTime { get => floorAppearTime; set => floorAppearTime = value; }
+    public bool Finished { get => finished; set => finished = value; }
+
+    public int GetPoints()
+    {
+        return points;
+    }
+
+    public void ChangePoints(int change)
+    {
+        points += change;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -33,6 +46,11 @@ public class GameController : MonoBehaviour
         }
 
         if(Input.GetKeyDown(KeyCode.P))
+        {
+            RestartScene();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Return) && Finished)
         {
             RestartScene();
         }

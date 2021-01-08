@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
 using UnityStandardAssets.Utility;
+using TMPro;
 using Random = UnityEngine.Random;
 
 #pragma warning disable 618, 649
@@ -53,6 +54,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             if (other.transform.CompareTag("Death"))
             {
                 TeleportPlayerTo(startingPosition);
+                gameController.ChangePoints(-1);
             }
 
             if (other.transform.CompareTag("DisappearingFloor"))
@@ -67,7 +69,15 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
             if (other.transform.CompareTag("Finish"))
             {
-                gameController.RestartScene();
+                TMP_Text text = GameObject.Find("FinishText").GetComponent<TMP_Text>();
+                gameController.Finished = true;
+                text.text = "Score: " + gameController.GetPoints() + Environment.NewLine + "Enter - try again" + Environment.NewLine + "Esc - leave";
+            }
+
+            if (other.transform.CompareTag("Point"))
+            {
+                Destroy(other.gameObject);
+                gameController.ChangePoints(1);
             }
         }
 
