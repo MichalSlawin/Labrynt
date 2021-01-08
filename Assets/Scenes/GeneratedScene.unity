@@ -327,6 +327,12 @@ MonoBehaviour:
     type: 3}
   coveredFallingSandsTrapPrefab: {fileID: 1519489842026924276, guid: 8c3dbec037c109b46a5a8ab935466036,
     type: 3}
+  horizontalRotatedBladesTrapPrefab: {fileID: -7153306403480934137, guid: a811681c8d4d79e418713c1c485f6935,
+    type: 3}
+  tunnelBladesTrapHardPrefab: {fileID: -9190967968592170519, guid: 5e3dcb9de6370a7408d30c5927bae5f5,
+    type: 3}
+  bladesTrapHardPrefab: {fileID: 2955593683425747687, guid: 5fb4480fa955d034c921983a6247e3c8,
+    type: 3}
 --- !u!4 &1340078089 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 957504424441879308, guid: 7bde73fca80e8da4ab8d3f4bf29ef209,

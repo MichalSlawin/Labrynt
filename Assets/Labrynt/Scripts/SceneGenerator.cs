@@ -26,6 +26,9 @@ public class SceneGenerator : MonoBehaviour
     public Trap doubleFallingTrapPrefab;
     public Trap multipleFallingSandsTrapPrefab;
     public Trap coveredFallingSandsTrapPrefab;
+    public Trap horizontalRotatedBladesTrapPrefab;
+    public Trap tunnelBladesTrapHardPrefab;
+    public Trap bladesTrapHardPrefab;
 
     private Corridor lastPlaced;
     private List<Trap> traps;
@@ -350,7 +353,10 @@ public class SceneGenerator : MonoBehaviour
             fallingTrapPrefab,
             doubleFallingTrapPrefab,
             multipleFallingSandsTrapPrefab,
-            coveredFallingSandsTrapPrefab
+            coveredFallingSandsTrapPrefab,
+            horizontalRotatedBladesTrapPrefab,
+            tunnelBladesTrapHardPrefab,
+            bladesTrapHardPrefab
         };
     }
 
