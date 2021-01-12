@@ -52,20 +52,22 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
         private Vector3 startingPosition;
         private GameController gameController;
+        private SceneGenerator sceneGenerator;
         private System.Random random = new System.Random();
+        private bool immortal = false;
 
         private const float POWERUP_TIME = 10.0f;
 
         private void OnTriggerEnter(Collider other)
         {
             Debug.Log(other.tag);
-            if (other.transform.CompareTag("Death"))
+            if (other.transform.CompareTag("Death") && !immortal)
             {
                 TeleportPlayerTo(startingPosition);
                 gameController.ChangePoints(-1);
             }
 
-            if (other.transform.CompareTag("DisappearingFloor"))
+            if (other.transform.CompareTag("DisappearingFloor") && !immortal)
             {
                 StartCoroutine(gameController.DisableObjectTemporarily(other.gameObject, GameController.FloorDissapearTime, GameController.FloorAppearTime));
             }
@@ -86,18 +88,22 @@ namespace UnityStandardAssets.Characters.FirstPerson
             {
                 Destroy(other.gameObject);
                 gameController.ChangePoints(1);
+                sceneGenerator.IncreasePointsCollected();
+                sceneGenerator.UpdatePointsCounter();
             }
 
             if(other.transform.CompareTag("Powerup"))
             {
-                UseRandomPowerup();
                 Destroy(other.gameObject);
+                RestoreOriginalValues();
+                UseRandomPowerup();
             }
         }
 
         private void UseRandomPowerup()
         {
-            int randNum = random.Next(1, 4);
+            int randNum = random.Next(1, 5);
+            Debug.Log(randNum);
 
             if(randNum == 1)
             {
@@ -110,6 +116,10 @@ namespace UnityStandardAssets.Characters.FirstPerson
             if(randNum == 3)
             {
                 StartCoroutine(ChangeGravity(1f, POWERUP_TIME));
+            }
+            if(randNum == 4)
+            {
+                StartCoroutine(MakeImmortal(POWERUP_TIME));
             }
         }
 
@@ -140,6 +150,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
             gameController = FindObjectOfType<GameController>();
             if (gameController == null) throw new Exception("Game controller not found!");
+            sceneGenerator = FindObjectOfType<SceneGenerator>();
+            if (sceneGenerator == null) throw new Exception("Scene generator not found!");
         }
 
 
@@ -184,35 +196,42 @@ namespace UnityStandardAssets.Characters.FirstPerson
             m_RunSpeed = originalRunSpeed;
             m_JumpSpeed = originalJumpSpeed;
             m_GravityMultiplier = originalGravityMultiplier;
+            immortal = false;
         }
 
         private IEnumerator MultiplyWalkRunSpeeds(float multiplier, float duration)
         {
             m_WalkSpeed = originalWalkSpeed * multiplier;
             m_RunSpeed = originalRunSpeed * multiplier;
-
             yield return new WaitForSeconds(duration);
-
             m_WalkSpeed = originalWalkSpeed;
             m_RunSpeed = originalRunSpeed;
+            Debug.Log("end of MultiplyWalkRunSpeeds");
         }
 
         private IEnumerator MultiplyJumpSpeed(float multiplier, float duration)
         {
+            Debug.Log("MultiplyJumpSpeed start");
             m_JumpSpeed = originalJumpSpeed * multiplier;
-
             yield return new WaitForSeconds(duration);
-
             m_JumpSpeed = originalJumpSpeed;
+            Debug.Log("end of MultiplyJumpSpeed");
         }
 
         private IEnumerator ChangeGravity(float value, float duration)
         {
             m_GravityMultiplier = value;
-
             yield return new WaitForSeconds(duration);
-
             m_GravityMultiplier = originalGravityMultiplier;
+            Debug.Log("end of ChangeGravity");
+        }
+
+        private IEnumerator MakeImmortal(float duration)
+        {
+            immortal = true;
+            yield return new WaitForSeconds(duration);
+            immortal = false;
+            Debug.Log("end of MakeImmortal");
         }
 
         //---------------------------------------------------------------------------------------------

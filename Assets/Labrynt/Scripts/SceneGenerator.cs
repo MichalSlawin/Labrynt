@@ -1,6 +1,7 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class SceneGenerator : MonoBehaviour
 {
@@ -31,6 +32,7 @@ public class SceneGenerator : MonoBehaviour
     public Trap horizontalRotatedBladesTrapPrefab;
     public Trap tunnelBladesTrapHardPrefab;
     public Trap bladesTrapHardPrefab;
+    public Trap hiddenFloorSpikesTrapPrefab;
 
     private Corridor lastPlaced;
     private List<Trap> traps;
@@ -51,6 +53,11 @@ public class SceneGenerator : MonoBehaviour
     private const int RAND_CORRIDOR_MAX_NUM = 5;
 
     private static System.Random random = new System.Random();
+
+    private int pointsCollected = 0;
+    private int pointsGenerated = 0;
+
+    private TMP_Text pointsText;
 
     //--------------------------------------------------------------------------------------
 
@@ -89,6 +96,42 @@ public class SceneGenerator : MonoBehaviour
             Debug.Log("Too few corridors!");
             gameController.RestartScene();
         }
+
+        InitializePointsCounter();
+
+        int respawnCount = GameObject.FindGameObjectsWithTag("Respawn").Length;
+        int finishCount = GameObject.FindGameObjectsWithTag("Finish").Length;
+        int pointCount = GameObject.FindGameObjectsWithTag("Point").Length;
+        int powerupCount = GameObject.FindGameObjectsWithTag("Powerup").Length;
+
+        Debug.Log("respawns: " + respawnCount);
+        Debug.Log("finish: " + finishCount);
+        Debug.Log("points: " + pointCount);
+        Debug.Log("powerups: " + powerupCount);
+    }
+
+    public int GetPointsCollected()
+    {
+        return pointsCollected;
+    }
+
+    public void IncreasePointsCollected()
+    {
+        pointsCollected++;
+    }
+
+    //--------------------------------------------------------------------------------------
+
+    private void InitializePointsCounter()
+    {
+        pointsGenerated = GameObject.FindGameObjectsWithTag("Point").Length;
+        pointsText = GameObject.Find("PointsText").GetComponent<TMP_Text>();
+        UpdatePointsCounter();
+    }
+
+    public void UpdatePointsCounter()
+    {
+        pointsText.text = pointsCollected + " / " + pointsGenerated;
     }
 
     //--------------------------------------------------------------------------------------
@@ -406,7 +449,8 @@ public class SceneGenerator : MonoBehaviour
             coveredFallingSandsTrapPrefab,
             horizontalRotatedBladesTrapPrefab,
             tunnelBladesTrapHardPrefab,
-            bladesTrapHardPrefab
+            bladesTrapHardPrefab,
+            hiddenFloorSpikesTrapPrefab
         };
     }
 
