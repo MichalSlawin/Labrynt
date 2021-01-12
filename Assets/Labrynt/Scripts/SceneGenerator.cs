@@ -14,6 +14,7 @@ public class SceneGenerator : MonoBehaviour
     public Corridor corridor4x4Prefab;
     public Corridor turnCorridorPrefab;
     public Corridor pointEndShortPrefab;
+    public Corridor powerupEndShortPrefab;
     public Corridor3Ways corridor3WaysPrefab;
     public Corridor3Ways corridor3WaysShortPrefab;
 
@@ -155,10 +156,14 @@ public class SceneGenerator : MonoBehaviour
         }
         else
         {
-            randNum = random.Next(1, 3);
+            randNum = random.Next(1, 5);
             if(randNum == 1)
             {
                 PlaceCorridorBackwards(deadEndShortPrefab, lastPlacedTemp);
+            }
+            else if(randNum == 2)
+            {
+                PlaceCorridorBackwards(powerupEndShortPrefab, lastPlacedTemp);
             }
             else
             {
@@ -221,10 +226,14 @@ public class SceneGenerator : MonoBehaviour
         }
         else
         {
-            randNum = random.Next(1, 3);
+            randNum = random.Next(1, 5);
             if (randNum == 1)
             {
                 PlaceCorridorDown(deadEndShortPrefab, lastPlacedTemp);
+            }
+            else if (randNum == 2)
+            {
+                PlaceCorridorDown(powerupEndShortPrefab, lastPlacedTemp);
             }
             else
             {
@@ -290,10 +299,14 @@ public class SceneGenerator : MonoBehaviour
         }
         else
         {
-            randNum = random.Next(1, 3);
+            randNum = random.Next(1, 5);
             if (randNum == 1)
             {
                 PlaceCorridorLeft(deadEndShortPrefab, lastPlaced, true);
+            }
+            else if (randNum == 2)
+            {
+                PlaceCorridorLeft(powerupEndShortPrefab, lastPlaced, true);
             }
             else
             {
@@ -359,10 +372,14 @@ public class SceneGenerator : MonoBehaviour
         }
         else
         {
-            randNum = random.Next(1, 3);
+            randNum = random.Next(1, 5);
             if (randNum == 1)
             {
                 PlaceCorridorRight(deadEndShortPrefab, lastPlaced, true);
+            }
+            else if (randNum == 2)
+            {
+                PlaceCorridorRight(powerupEndShortPrefab, lastPlaced, true);
             }
             else
             {
