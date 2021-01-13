@@ -56,8 +56,6 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private System.Random random = new System.Random();
         private bool immortal = false;
 
-        private const float POWERUP_TIME = 10.0f;
-
         private void OnTriggerEnter(Collider other)
         {
             Debug.Log(other.tag);
@@ -95,31 +93,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             if(other.transform.CompareTag("Powerup"))
             {
                 Destroy(other.gameObject);
-                RestoreOriginalValues();
-                UseRandomPowerup();
-            }
-        }
-
-        private void UseRandomPowerup()
-        {
-            int randNum = random.Next(1, 5);
-            Debug.Log(randNum);
-
-            if(randNum == 1)
-            {
-                StartCoroutine(MultiplyJumpSpeed(1.4f, POWERUP_TIME));
-            }
-            if (randNum == 2)
-            {
-                StartCoroutine(MultiplyWalkRunSpeeds(1.5f, POWERUP_TIME));
-            }
-            if(randNum == 3)
-            {
-                StartCoroutine(ChangeGravity(1f, POWERUP_TIME));
-            }
-            if(randNum == 4)
-            {
-                StartCoroutine(MakeImmortal(POWERUP_TIME));
+                StartCoroutine(gameController.UseRandomPowerup(GameController.PowerupTime));
             }
         }
 
@@ -190,7 +164,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             originalGravityMultiplier = m_GravityMultiplier;
         }
 
-        private void RestoreOriginalValues()
+        public void RestoreOriginalValues()
         {
             m_WalkSpeed = originalWalkSpeed;
             m_RunSpeed = originalRunSpeed;
@@ -199,39 +173,25 @@ namespace UnityStandardAssets.Characters.FirstPerson
             immortal = false;
         }
 
-        private IEnumerator MultiplyWalkRunSpeeds(float multiplier, float duration)
+        public void MultiplyWalkRunSpeeds(float multiplier, float duration)
         {
             m_WalkSpeed = originalWalkSpeed * multiplier;
             m_RunSpeed = originalRunSpeed * multiplier;
-            yield return new WaitForSeconds(duration);
-            m_WalkSpeed = originalWalkSpeed;
-            m_RunSpeed = originalRunSpeed;
-            Debug.Log("end of MultiplyWalkRunSpeeds");
         }
 
-        private IEnumerator MultiplyJumpSpeed(float multiplier, float duration)
+        public void MultiplyJumpSpeed(float multiplier, float duration)
         {
-            Debug.Log("MultiplyJumpSpeed start");
             m_JumpSpeed = originalJumpSpeed * multiplier;
-            yield return new WaitForSeconds(duration);
-            m_JumpSpeed = originalJumpSpeed;
-            Debug.Log("end of MultiplyJumpSpeed");
         }
 
-        private IEnumerator ChangeGravity(float value, float duration)
+        public void ChangeGravity(float value, float duration)
         {
             m_GravityMultiplier = value;
-            yield return new WaitForSeconds(duration);
-            m_GravityMultiplier = originalGravityMultiplier;
-            Debug.Log("end of ChangeGravity");
         }
 
-        private IEnumerator MakeImmortal(float duration)
+        public void MakeImmortal(float duration)
         {
             immortal = true;
-            yield return new WaitForSeconds(duration);
-            immortal = false;
-            Debug.Log("end of MakeImmortal");
         }
 
         //---------------------------------------------------------------------------------------------
@@ -380,7 +340,9 @@ namespace UnityStandardAssets.Characters.FirstPerson
             // only if the player is going to a run, is running and the fovkick is to be used
             if (m_IsWalking != waswalking && m_UseFovKick && m_CharacterController.velocity.sqrMagnitude > 0)
             {
-                StopAllCoroutines();
+                //StopAllCoroutines();
+                StopCoroutine(m_FovKick.FOVKickUp());
+                StopCoroutine(m_FovKick.FOVKickDown());
                 StartCoroutine(!m_IsWalking ? m_FovKick.FOVKickUp() : m_FovKick.FOVKickDown());
             }
         }
