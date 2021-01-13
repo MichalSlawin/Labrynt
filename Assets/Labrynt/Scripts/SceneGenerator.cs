@@ -16,6 +16,7 @@ public class SceneGenerator : MonoBehaviour
     public Corridor turnCorridorPrefab;
     public Corridor pointEndShortPrefab;
     public Corridor powerupEndShortPrefab;
+    public Corridor portalEndShortPrefab;
     public Corridor3Ways corridor3WaysPrefab;
     public Corridor3Ways corridor3WaysShortPrefab;
 
@@ -199,12 +200,12 @@ public class SceneGenerator : MonoBehaviour
         }
         else
         {
-            randNum = random.Next(1, 5);
+            randNum = random.Next(1, 6);
             if(randNum == 1)
             {
                 PlaceCorridorBackwards(deadEndShortPrefab, lastPlacedTemp);
             }
-            else if(randNum == 2)
+            else if(randNum == 2 || randNum == 3)
             {
                 PlaceCorridorBackwards(powerupEndShortPrefab, lastPlacedTemp);
             }
@@ -269,12 +270,12 @@ public class SceneGenerator : MonoBehaviour
         }
         else
         {
-            randNum = random.Next(1, 5);
+            randNum = random.Next(1, 6);
             if (randNum == 1)
             {
                 PlaceCorridorDown(deadEndShortPrefab, lastPlacedTemp);
             }
-            else if (randNum == 2)
+            else if (randNum == 2 || randNum == 3)
             {
                 PlaceCorridorDown(powerupEndShortPrefab, lastPlacedTemp);
             }
@@ -322,7 +323,8 @@ public class SceneGenerator : MonoBehaviour
 
         if (placedInRow >= MAX_CORRIDORS_IN_LINE_NUM || (randNum == 2 && placedInRow >= MIN_CORRIDORS_IN_LINE_NUM))
         {
-            PlaceClosedCorridorLeft();
+            //PlaceClosedCorridorLeft();
+            PlaceCorridorLeft(portalEndShortPrefab, lastPlaced, true);
         }
         else
         {
@@ -342,12 +344,12 @@ public class SceneGenerator : MonoBehaviour
         }
         else
         {
-            randNum = random.Next(1, 5);
+            randNum = random.Next(1, 6);
             if (randNum == 1)
             {
                 PlaceCorridorLeft(deadEndShortPrefab, lastPlaced, true);
             }
-            else if (randNum == 2)
+            else if (randNum == 2 || randNum == 3)
             {
                 PlaceCorridorLeft(powerupEndShortPrefab, lastPlaced, true);
             }
@@ -395,7 +397,8 @@ public class SceneGenerator : MonoBehaviour
 
         if (placedInRow >= MAX_CORRIDORS_IN_LINE_NUM || (randNum == 2 && placedInRow >= MIN_CORRIDORS_IN_LINE_NUM))
         {
-            PlaceClosedCorridorRight();
+            //PlaceClosedCorridorRight();
+            PlaceCorridorRight(portalEndShortPrefab, lastPlaced, true);
         }
         else
         {
@@ -415,12 +418,12 @@ public class SceneGenerator : MonoBehaviour
         }
         else
         {
-            randNum = random.Next(1, 5);
+            randNum = random.Next(1, 6);
             if (randNum == 1)
             {
                 PlaceCorridorRight(deadEndShortPrefab, lastPlaced, true);
             }
-            else if (randNum == 2)
+            else if (randNum == 2 || randNum == 3)
             {
                 PlaceCorridorRight(powerupEndShortPrefab, lastPlaced, true);
             }

@@ -92,6 +92,10 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
             if(other.transform.CompareTag("Powerup"))
             {
+                if(gameController.PowerupActive)
+                {
+                    gameController.RemovePowerup = false;
+                }
                 Destroy(other.gameObject);
                 StartCoroutine(gameController.UseRandomPowerup(GameController.PowerupTime));
             }

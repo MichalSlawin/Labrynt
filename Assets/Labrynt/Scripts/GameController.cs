@@ -7,11 +7,13 @@ using TMPro;
 
 public class GameController : MonoBehaviour
 {
-    private static float powerupTime = 10.0f;
+    private static float powerupTime = 15.0f;
     private static float floorDissapearTime = 0.1f;
     private static float floorAppearTime = 1f;
     private int points = 0;
     private bool finished = false;
+    private bool removePowerup = true;
+    private bool powerupActive = false;
 
     private static int maxFps = 60;
     private GameObject player;
@@ -22,6 +24,8 @@ public class GameController : MonoBehaviour
     public static float FloorAppearTime { get => floorAppearTime; set => floorAppearTime = value; }
     public bool Finished { get => finished; set => finished = value; }
     public static float PowerupTime { get => powerupTime; set => powerupTime = value; }
+    public bool RemovePowerup { get => removePowerup; set => removePowerup = value; }
+    public bool PowerupActive { get => powerupActive; set => powerupActive = value; }
 
     private System.Random random = new System.Random();
     private TMP_Text powerupText;
@@ -92,6 +96,8 @@ public class GameController : MonoBehaviour
 
     public IEnumerator UseRandomPowerup(float duration)
     {
+        firstPersonController.RestoreOriginalValues();
+
         int randNum = random.Next(1, 5);
 
         if (randNum == 1)
@@ -115,8 +121,17 @@ public class GameController : MonoBehaviour
             powerupText.text = "Immortality";
         }
 
+        PowerupActive = true;
+
         yield return new WaitForSeconds(duration);
-        firstPersonController.RestoreOriginalValues();
-        powerupText.text = "";
+
+        if(removePowerup)
+        {
+            firstPersonController.RestoreOriginalValues();
+            powerupText.text = "";
+            PowerupActive = false;
+        }
+
+        removePowerup = true;
     }
 }

@@ -8,6 +8,7 @@ TagManager:
   - DisappearingFloor
   - Point
   - Powerup
+  - Portal
   layers:
   - Default
   - TransparentFX
