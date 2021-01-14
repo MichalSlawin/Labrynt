@@ -164,15 +164,15 @@ public class GameController : MonoBehaviour
         {
             feedback = "At least it's not negative";
         }
-        else if(GetPoints() < 0)
+        else if(GetPoints() < 0 && GetPoints() > -pointsGenerated / 2)
         {
             feedback = "Don't die to improve your score";
         }
-        else if(GetPoints() <= -pointsGenerated / 2)
+        else if(GetPoints() <= -pointsGenerated / 2 && GetPoints() > -pointsGenerated)
         {
             feedback = "Too hard?";
         }
-        else if (GetPoints() <= -pointsGenerated)
+        else if (GetPoints() <= -pointsGenerated && GetPoints() > -pointsGenerated * 2)
         {
             feedback = "Git gud";
         }
