@@ -99,6 +99,30 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 Destroy(other.gameObject);
                 StartCoroutine(gameController.UseRandomPowerup(GameController.PowerupTime));
             }
+
+            if(other.transform.CompareTag("Portal"))
+            {
+                TeleportPlayerToOtherPortal(other.gameObject);
+            }
+        }
+
+        private void TeleportPlayerToOtherPortal(GameObject enterPortal)
+        {
+            GameObject exitPortal = null;
+            GameObject[] portals = GameObject.FindGameObjectsWithTag("Portal");
+
+            foreach(GameObject portal in portals)
+            {
+                if(!portal.Equals(enterPortal))
+                {
+                    exitPortal = portal;
+                }
+            }
+            int offsetZ = 0;
+            if (exitPortal.transform.position.z > 0) offsetZ = -2;
+            if (exitPortal.transform.position.z < 0) offsetZ = 2;
+
+            TeleportPlayerTo(new Vector3(exitPortal.transform.position.x, 3, exitPortal.transform.position.z + offsetZ));
         }
 
         private void TeleportPlayerTo(Vector3 position)

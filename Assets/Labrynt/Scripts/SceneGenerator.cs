@@ -101,14 +101,26 @@ public class SceneGenerator : MonoBehaviour
         InitializePointsCounter();
 
         int respawnCount = GameObject.FindGameObjectsWithTag("Respawn").Length;
-        int finishCount = GameObject.FindGameObjectsWithTag("Finish").Length;
         int pointCount = GameObject.FindGameObjectsWithTag("Point").Length;
         int powerupCount = GameObject.FindGameObjectsWithTag("Powerup").Length;
+        
+        if(respawnCount < 3)
+        {
+            Debug.Log("Too few respawns!");
+            gameController.RestartScene();
+        }
 
-        Debug.Log("respawns: " + respawnCount);
-        Debug.Log("finish: " + finishCount);
-        Debug.Log("points: " + pointCount);
-        Debug.Log("powerups: " + powerupCount);
+        if(pointCount < 4)
+        {
+            Debug.Log("Too few points!");
+            gameController.RestartScene();
+        }
+
+        if(powerupCount < 3)
+        {
+            Debug.Log("Too few powerups!");
+            gameController.RestartScene();
+        }
     }
 
     public int GetPointsCollected()
@@ -200,7 +212,7 @@ public class SceneGenerator : MonoBehaviour
         }
         else
         {
-            randNum = random.Next(1, 6);
+            randNum = random.Next(1, 7);
             if(randNum == 1)
             {
                 PlaceCorridorBackwards(deadEndShortPrefab, lastPlacedTemp);
@@ -270,7 +282,7 @@ public class SceneGenerator : MonoBehaviour
         }
         else
         {
-            randNum = random.Next(1, 6);
+            randNum = random.Next(1, 7);
             if (randNum == 1)
             {
                 PlaceCorridorDown(deadEndShortPrefab, lastPlacedTemp);
@@ -344,7 +356,7 @@ public class SceneGenerator : MonoBehaviour
         }
         else
         {
-            randNum = random.Next(1, 6);
+            randNum = random.Next(1, 7);
             if (randNum == 1)
             {
                 PlaceCorridorLeft(deadEndShortPrefab, lastPlaced, true);
@@ -418,7 +430,7 @@ public class SceneGenerator : MonoBehaviour
         }
         else
         {
-            randNum = random.Next(1, 6);
+            randNum = random.Next(1, 7);
             if (randNum == 1)
             {
                 PlaceCorridorRight(deadEndShortPrefab, lastPlaced, true);
