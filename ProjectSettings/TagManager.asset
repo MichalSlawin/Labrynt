@@ -9,6 +9,7 @@ TagManager:
   - Point
   - Powerup
   - Portal
+  - FinishBlockade
   layers:
   - Default
   - TransparentFX

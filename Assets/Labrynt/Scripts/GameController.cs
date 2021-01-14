@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -10,7 +11,7 @@ public class GameController : MonoBehaviour
     private static float powerupTime = 15.0f;
     private static float floorDissapearTime = 0.1f;
     private static float floorAppearTime = 1f;
-    private int points = 0;
+    private int points = 0; // game score
     private bool finished = false;
     private bool removePowerup = true;
     private bool powerupActive = false;
@@ -18,6 +19,7 @@ public class GameController : MonoBehaviour
     private static int maxFps = 60;
     private GameObject player;
     private UnityStandardAssets.Characters.FirstPerson.FirstPersonController firstPersonController;
+    private SceneGenerator sceneGenerator;
 
     public static int MaxFps { get => maxFps; set => maxFps = value; }
     public static float FloorDissapearTime { get => floorDissapearTime; set => floorDissapearTime = value; }
@@ -48,6 +50,9 @@ public class GameController : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         if (player == null) throw new System.Exception("Player not found!");
         firstPersonController = player.GetComponent<UnityStandardAssets.Characters.FirstPerson.FirstPersonController>();
+        if (firstPersonController == null) throw new System.Exception("FirstPersonController not found!");
+        sceneGenerator = FindObjectOfType<SceneGenerator>();
+        if (sceneGenerator == null) throw new System.Exception("SceneGenerator not found!");
 
         powerupText = GameObject.Find("PowerupText").GetComponent<TMP_Text>();
     }
@@ -133,5 +138,49 @@ public class GameController : MonoBehaviour
         }
 
         removePowerup = true;
+    }
+
+    public void FinishGame()
+    {
+        TMP_Text text = GameObject.Find("FinishText").GetComponent<TMP_Text>();
+        Finished = true;
+        string feedback = "";
+
+        int pointsGenerated = sceneGenerator.GetPointsGenerated();
+
+        if (GetPoints() >= pointsGenerated)
+        {
+            feedback = "You have trully mastered this game!";
+        }
+        else if(GetPoints() >= pointsGenerated / 2)
+        {
+            feedback = "Impressive victory";
+        }
+        else if(GetPoints() > 0)
+        {
+            feedback = "Well played";
+        }
+        else if(GetPoints() == 0)
+        {
+            feedback = "At least it's not negative";
+        }
+        else if(GetPoints() < 0)
+        {
+            feedback = "Don't die to improve your score";
+        }
+        else if(GetPoints() <= -pointsGenerated / 2)
+        {
+            feedback = "Too hard?";
+        }
+        else if (GetPoints() <= -pointsGenerated)
+        {
+            feedback = "Git gud";
+        }
+        else if (GetPoints() <= -pointsGenerated*2)
+        {
+            feedback = "How did you even die so many times?";
+        }
+
+        text.text = feedback + Environment.NewLine + "Score: " + GetPoints() + Environment.NewLine + "Enter - try again" + Environment.NewLine + "Esc - leave";
     }
 }

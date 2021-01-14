@@ -77,9 +77,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
             if (other.transform.CompareTag("Finish"))
             {
-                TMP_Text text = GameObject.Find("FinishText").GetComponent<TMP_Text>();
-                gameController.Finished = true;
-                text.text = "Score: " + gameController.GetPoints() + Environment.NewLine + "Enter - try again" + Environment.NewLine + "Esc - leave";
+                gameController.FinishGame();
             }
 
             if (other.transform.CompareTag("Point"))

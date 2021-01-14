@@ -128,9 +128,21 @@ public class SceneGenerator : MonoBehaviour
         return pointsCollected;
     }
 
+    public int GetPointsGenerated()
+    {
+        return pointsGenerated;
+    }
+
     public void IncreasePointsCollected()
     {
         pointsCollected++;
+
+        if(pointsCollected == pointsGenerated)
+        {
+            GameObject blockade = GameObject.FindGameObjectWithTag("FinishBlockade");
+            if (blockade == null) throw new Exception("FinishBlockade not found");
+            Destroy(blockade);
+        }
     }
 
     //--------------------------------------------------------------------------------------
