@@ -90,7 +90,10 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
             if (other.transform.CompareTag("Finish"))
             {
-                gameController.FinishGame();
+                if(!gameController.Finished)
+                {
+                    gameController.FinishGame();
+                }
             }
 
             if (other.transform.CompareTag("Point"))
@@ -197,6 +200,16 @@ namespace UnityStandardAssets.Characters.FirstPerson
             }
 
             m_PreviouslyGrounded = m_CharacterController.isGrounded;
+
+            HandleFallingDown();
+        }
+
+        private void HandleFallingDown()
+        {
+            if(transform.position.y <= -100)
+            {
+                TeleportPlayerTo(startingPosition);
+            }
         }
 
         //---------------------------------------------------------------------------------------------

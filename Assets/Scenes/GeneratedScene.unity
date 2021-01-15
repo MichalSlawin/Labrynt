@@ -508,6 +508,8 @@ MonoBehaviour:
     type: 3}
   secretEndShortPrefab: {fileID: 1850672523683288619, guid: a175fac7eabb93d439529bd52ff8dd1f,
     type: 3}
+  secret2EndShortPrefab: {fileID: 1850672523683288619, guid: 0f72b0113df751e40a40dd81ea638988,
+    type: 3}
   portalEndShortPrefab: {fileID: 1850672523683288619, guid: 963015be63391c047ad8fced6bbd88e0,
     type: 3}
   corridor3WaysPrefab: {fileID: 2385392465642444309, guid: 1ae74a1aa41f89a429328c63f5190591,

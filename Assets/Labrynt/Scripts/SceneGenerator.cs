@@ -17,6 +17,7 @@ public class SceneGenerator : MonoBehaviour
     public Corridor pointEndShortPrefab;
     public Corridor powerupEndShortPrefab;
     public Corridor secretEndShortPrefab;
+    public Corridor secret2EndShortPrefab;
     public Corridor portalEndShortPrefab;
     public Corridor3Ways corridor3WaysPrefab;
     public Corridor3Ways corridor3WaysShortPrefab;
@@ -54,6 +55,7 @@ public class SceneGenerator : MonoBehaviour
     private const int MAX_PLACED_CORRIDORS = 100;
     private const int RAND_CORRIDOR_MIN_NUM = 1;
     private const int RAND_CORRIDOR_MAX_NUM = 5;
+    private const int SECRET_CHANCE = 30;
 
     private static System.Random random = new System.Random();
 
@@ -229,11 +231,15 @@ public class SceneGenerator : MonoBehaviour
         else
         {
             randNum = random.Next(1, 7);
-            int randNumSecret = random.Next(1, 30);
+            int randNumSecret = random.Next(1, SECRET_CHANCE);
             if(randNumSecret == 15 && !secretPlaced)
             {
                 secretPlaced = true;
-                PlaceCorridorBackwards(secretEndShortPrefab, lastPlacedTemp);
+                randNumSecret = random.Next(1, 3);
+                if(randNumSecret == 1)
+                    PlaceCorridorBackwards(secretEndShortPrefab, lastPlacedTemp);
+                else
+                    PlaceCorridorBackwards(secret2EndShortPrefab, lastPlacedTemp);
             }
             else if(randNum == 1)
             {
@@ -305,11 +311,15 @@ public class SceneGenerator : MonoBehaviour
         else
         {
             randNum = random.Next(1, 7);
-            int randNumSecret = random.Next(1, 30);
+            int randNumSecret = random.Next(1, SECRET_CHANCE);
             if (randNumSecret == 15 && !secretPlaced)
             {
                 secretPlaced = true;
-                PlaceCorridorDown(secretEndShortPrefab, lastPlacedTemp);
+                randNumSecret = random.Next(1, 3);
+                if (randNumSecret == 1)
+                    PlaceCorridorDown(secretEndShortPrefab, lastPlacedTemp);
+                else
+                    PlaceCorridorDown(secret2EndShortPrefab, lastPlacedTemp);
             }
             else if (randNum == 1)
             {
@@ -363,7 +373,6 @@ public class SceneGenerator : MonoBehaviour
 
         if (placedInRow >= MAX_CORRIDORS_IN_LINE_NUM || (randNum == 2 && placedInRow >= MIN_CORRIDORS_IN_LINE_NUM))
         {
-            //PlaceClosedCorridorLeft();
             PlaceCorridorLeft(portalEndShortPrefab, lastPlaced, true);
         }
         else
@@ -385,11 +394,16 @@ public class SceneGenerator : MonoBehaviour
         else
         {
             randNum = random.Next(1, 7);
-            int randNumSecret = random.Next(1, 30);
+            int randNumSecret = random.Next(1, SECRET_CHANCE);
             if (randNumSecret == 15 && !secretPlaced)
             {
                 secretPlaced = true;
-                PlaceCorridorLeft(secretEndShortPrefab, lastPlaced, true);
+                randNumSecret = random.Next(1, 3);
+                if (randNumSecret == 1)
+                    PlaceCorridorLeft(secretEndShortPrefab, lastPlaced, true);
+                else
+                    PlaceCorridorLeft(secret2EndShortPrefab, lastPlaced, true);
+
             }
             else if (randNum == 1)
             {
@@ -465,11 +479,16 @@ public class SceneGenerator : MonoBehaviour
         else
         {
             randNum = random.Next(1, 7);
-            int randNumSecret = random.Next(1, 30);
+            int randNumSecret = random.Next(1, SECRET_CHANCE);
             if (randNumSecret == 15 && !secretPlaced)
             {
                 secretPlaced = true;
-                PlaceCorridorRight(secretEndShortPrefab, lastPlaced, true);
+                randNumSecret = random.Next(1, 3);
+                if (randNumSecret == 1)
+                    PlaceCorridorRight(secretEndShortPrefab, lastPlaced, true);
+                else
+                    PlaceCorridorRight(secret2EndShortPrefab, lastPlaced, true);
+
             }
             else if (randNum == 1)
             {
