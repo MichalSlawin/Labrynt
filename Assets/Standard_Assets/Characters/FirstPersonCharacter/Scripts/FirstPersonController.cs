@@ -30,6 +30,10 @@ namespace UnityStandardAssets.Characters.FirstPerson
         [SerializeField] private AudioClip[] m_FootstepSounds;    // an array of footstep sounds that will be randomly selected from.
         [SerializeField] private AudioClip m_JumpSound;           // the sound played when character leaves the ground.
         [SerializeField] private AudioClip m_LandSound;           // the sound played when character touches back on ground.
+        [SerializeField] private AudioClip collectPointSound;
+        [SerializeField] private AudioClip playerHitSound;
+        [SerializeField] private AudioClip powerupSound;
+        [SerializeField] private AudioClip respawnSound;
 
         private float originalWalkSpeed;
         private float originalRunSpeed;
@@ -61,6 +65,9 @@ namespace UnityStandardAssets.Characters.FirstPerson
             Debug.Log(other.tag);
             if (other.transform.CompareTag("Death") && !immortal)
             {
+                m_AudioSource.clip = playerHitSound;
+                m_AudioSource.Play();
+
                 TeleportPlayerTo(startingPosition);
                 gameController.ChangePoints(-1);
             }
@@ -72,7 +79,13 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
             if (other.transform.CompareTag("Respawn"))
             {
-                startingPosition = transform.position;
+                if(Mathf.Abs(startingPosition.x - transform.position.x) > 4 || Mathf.Abs(startingPosition.z - transform.position.z) > 4)
+                {
+                    m_AudioSource.clip = respawnSound;
+                    m_AudioSource.Play();
+
+                    startingPosition = transform.position;
+                }
             }
 
             if (other.transform.CompareTag("Finish"))
@@ -82,6 +95,9 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
             if (other.transform.CompareTag("Point"))
             {
+                m_AudioSource.clip = collectPointSound;
+                m_AudioSource.Play();
+
                 Destroy(other.gameObject);
                 gameController.ChangePoints(1);
                 sceneGenerator.IncreasePointsCollected();
@@ -90,7 +106,10 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
             if(other.transform.CompareTag("Powerup"))
             {
-                if(gameController.PowerupActive)
+                m_AudioSource.clip = powerupSound;
+                m_AudioSource.Play();
+
+                if (gameController.PowerupActive)
                 {
                     gameController.RemovePowerup = false;
                 }

@@ -506,6 +506,8 @@ MonoBehaviour:
     type: 3}
   powerupEndShortPrefab: {fileID: 1850672523683288619, guid: 3ee7b92db384d2948905462d6919f901,
     type: 3}
+  secretEndShortPrefab: {fileID: 1850672523683288619, guid: a175fac7eabb93d439529bd52ff8dd1f,
+    type: 3}
   portalEndShortPrefab: {fileID: 1850672523683288619, guid: 963015be63391c047ad8fced6bbd88e0,
     type: 3}
   corridor3WaysPrefab: {fileID: 2385392465642444309, guid: 1ae74a1aa41f89a429328c63f5190591,
@@ -873,8 +875,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8200000, guid: 5e9e851c0e142814dac026a256ba2ac0, type: 3}
       propertyPath: m_Volume
-      value: 0.5
+      value: 0.4
       objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 5e9e851c0e142814dac026a256ba2ac0, type: 3}
+      propertyPath: collectPointSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 6a8c60075137cfd4399c724d469adb9f, type: 3}
+    - target: {fileID: 11400000, guid: 5e9e851c0e142814dac026a256ba2ac0, type: 3}
+      propertyPath: playerHitSound
+      value: 
+      objectReference: {fileID: 8300000, guid: f221e2c628aa49640bd4edf4466a4c1d, type: 3}
+    - target: {fileID: 11400000, guid: 5e9e851c0e142814dac026a256ba2ac0, type: 3}
+      propertyPath: powerupSound
+      value: 
+      objectReference: {fileID: 8300000, guid: e468ef6de2b28ac48899e582fd3084dc, type: 3}
+    - target: {fileID: 11400000, guid: 5e9e851c0e142814dac026a256ba2ac0, type: 3}
+      propertyPath: respawnSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 46f31cd529fd7974d9a985c7123f53a6, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5e9e851c0e142814dac026a256ba2ac0, type: 3}
 --- !u!114 &1355849295 stripped

@@ -16,6 +16,7 @@ public class SceneGenerator : MonoBehaviour
     public Corridor turnCorridorPrefab;
     public Corridor pointEndShortPrefab;
     public Corridor powerupEndShortPrefab;
+    public Corridor secretEndShortPrefab;
     public Corridor portalEndShortPrefab;
     public Corridor3Ways corridor3WaysPrefab;
     public Corridor3Ways corridor3WaysShortPrefab;
@@ -38,6 +39,7 @@ public class SceneGenerator : MonoBehaviour
     private Corridor lastPlaced;
     private List<Trap> traps;
     private bool finishPlaced = false;
+    private bool secretPlaced = false;
     private int placedCorridorsCount = 0;
     private GameController gameController;
     private bool canBuildLeft = true;
@@ -121,6 +123,8 @@ public class SceneGenerator : MonoBehaviour
             Debug.Log("Too few powerups!");
             gameController.RestartScene();
         }
+
+        if (secretPlaced) Debug.Log("it's a secret!");
     }
 
     public int GetPointsCollected()
@@ -225,7 +229,13 @@ public class SceneGenerator : MonoBehaviour
         else
         {
             randNum = random.Next(1, 7);
-            if(randNum == 1)
+            int randNumSecret = random.Next(1, 30);
+            if(randNumSecret == 15 && !secretPlaced)
+            {
+                secretPlaced = true;
+                PlaceCorridorBackwards(secretEndShortPrefab, lastPlacedTemp);
+            }
+            else if(randNum == 1)
             {
                 PlaceCorridorBackwards(deadEndShortPrefab, lastPlacedTemp);
             }
@@ -295,7 +305,13 @@ public class SceneGenerator : MonoBehaviour
         else
         {
             randNum = random.Next(1, 7);
-            if (randNum == 1)
+            int randNumSecret = random.Next(1, 30);
+            if (randNumSecret == 15 && !secretPlaced)
+            {
+                secretPlaced = true;
+                PlaceCorridorDown(secretEndShortPrefab, lastPlacedTemp);
+            }
+            else if (randNum == 1)
             {
                 PlaceCorridorDown(deadEndShortPrefab, lastPlacedTemp);
             }
@@ -369,7 +385,13 @@ public class SceneGenerator : MonoBehaviour
         else
         {
             randNum = random.Next(1, 7);
-            if (randNum == 1)
+            int randNumSecret = random.Next(1, 30);
+            if (randNumSecret == 15 && !secretPlaced)
+            {
+                secretPlaced = true;
+                PlaceCorridorLeft(secretEndShortPrefab, lastPlaced, true);
+            }
+            else if (randNum == 1)
             {
                 PlaceCorridorLeft(deadEndShortPrefab, lastPlaced, true);
             }
@@ -443,7 +465,13 @@ public class SceneGenerator : MonoBehaviour
         else
         {
             randNum = random.Next(1, 7);
-            if (randNum == 1)
+            int randNumSecret = random.Next(1, 30);
+            if (randNumSecret == 15 && !secretPlaced)
+            {
+                secretPlaced = true;
+                PlaceCorridorRight(secretEndShortPrefab, lastPlaced, true);
+            }
+            else if (randNum == 1)
             {
                 PlaceCorridorRight(deadEndShortPrefab, lastPlaced, true);
             }
