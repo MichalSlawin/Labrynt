@@ -103,27 +103,33 @@ public class GameController : MonoBehaviour
     {
         firstPersonController.RestoreOriginalValues();
 
-        int randNum = random.Next(1, 5);
+        int randNum = random.Next(1, 6);
 
         if (randNum == 1)
         {
-            firstPersonController.MultiplyJumpSpeed(1.4f, powerupTime);
+            firstPersonController.MultiplyJumpSpeed(1.4f);
             powerupText.text = "Super Jump";
         }
         if (randNum == 2)
         {
-            firstPersonController.MultiplyWalkRunSpeeds(1.5f, powerupTime);
+            firstPersonController.MultiplyWalkRunSpeeds(1.5f);
             powerupText.text = "Super Speed";
         }
         if (randNum == 3)
         {
-            firstPersonController.ChangeGravity(1f, powerupTime);
+            firstPersonController.ChangeGravity(1f);
             powerupText.text = "Low Gravity";
         }
         if (randNum == 4)
         {
-            firstPersonController.MakeImmortal(powerupTime);
+            firstPersonController.MakeImmortal();
             powerupText.text = "Immortality";
+        }
+        if (randNum == 5)
+        {
+            firstPersonController.MakeImmortal();
+            firstPersonController.MultiplyWalkRunSpeeds(1.5f);
+            powerupText.text = "Immortality + SS";
         }
 
         PowerupActive = true;

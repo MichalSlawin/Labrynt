@@ -55,7 +55,7 @@ public class SceneGenerator : MonoBehaviour
     private const int MAX_PLACED_CORRIDORS = 100;
     private const int RAND_CORRIDOR_MIN_NUM = 1;
     private const int RAND_CORRIDOR_MAX_NUM = 5;
-    private const int SECRET_CHANCE = 30;
+    private const int SECRET_CHANCE = 60;
 
     private static System.Random random = new System.Random();
 
@@ -194,11 +194,11 @@ public class SceneGenerator : MonoBehaviour
 
             lastPlaced = lastPlacedTemp;
         }
-        else if (randNum >= 2 && randNum <= 3)
+        else if (randNum == 2)
         {
             lastPlaced = PlaceCorridorFrontally(corridor4x4Prefab, addToCorridor);
         }
-        else if (randNum >= 4)
+        else if (randNum >= 3)
         {
             lastPlaced = PlaceCorridorFrontally(GetRandomTrap(), addToCorridor);
         }
@@ -275,11 +275,11 @@ public class SceneGenerator : MonoBehaviour
 
             lastPlaced = lastPlacedTemp;
         }
-        else if (randNum >= 2 && randNum <= 3)
+        else if (randNum == 2)
         {
             lastPlaced = PlaceCorridorDown(corridor4x4Prefab, addToCorridor, fromRight);
         }
-        else if (randNum >= 4)
+        else if (randNum >= 3)
         {
             lastPlaced = PlaceCorridorDown(GetRandomTrap(), addToCorridor, fromRight);
         }
@@ -360,11 +360,11 @@ public class SceneGenerator : MonoBehaviour
 
             lastPlaced = lastPlacedTemp;
         }
-        else if (randNum >= 2 && randNum <= 3)
+        else if (randNum == 2)
         {
             lastPlaced = PlaceCorridorLeft(corridor4x4Prefab, addToCorridor);
         }
-        else if (randNum >= 4)
+        else if (randNum >= 3)
         {
             lastPlaced = PlaceCorridorLeft(GetRandomTrap(), addToCorridor);
         }
@@ -444,11 +444,11 @@ public class SceneGenerator : MonoBehaviour
 
             lastPlaced = lastPlacedTemp;
         }
-        else if (randNum >= 2 && randNum <= 3)
+        else if (randNum == 2)
         {
             lastPlaced = PlaceCorridorRight(corridor4x4Prefab, addToCorridor);
         }
-        else if (randNum >= 4)
+        else if (randNum >= 3)
         {
             lastPlaced = PlaceCorridorRight(GetRandomTrap(), addToCorridor);
         }

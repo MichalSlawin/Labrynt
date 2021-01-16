@@ -231,23 +231,23 @@ namespace UnityStandardAssets.Characters.FirstPerson
             immortal = false;
         }
 
-        public void MultiplyWalkRunSpeeds(float multiplier, float duration)
+        public void MultiplyWalkRunSpeeds(float multiplier)
         {
             m_WalkSpeed = originalWalkSpeed * multiplier;
             m_RunSpeed = originalRunSpeed * multiplier;
         }
 
-        public void MultiplyJumpSpeed(float multiplier, float duration)
+        public void MultiplyJumpSpeed(float multiplier)
         {
             m_JumpSpeed = originalJumpSpeed * multiplier;
         }
 
-        public void ChangeGravity(float value, float duration)
+        public void ChangeGravity(float value)
         {
             m_GravityMultiplier = value;
         }
 
-        public void MakeImmortal(float duration)
+        public void MakeImmortal()
         {
             immortal = true;
         }
