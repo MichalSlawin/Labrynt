@@ -15,6 +15,7 @@ public class GameController : MonoBehaviour
     private bool finished = false;
     private bool removePowerup = true;
     private bool powerupActive = false;
+    private bool wannaLeave = false;
 
     private static int maxFps = 60;
     private GameObject player;
@@ -62,12 +63,15 @@ public class GameController : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Escape))
         {
-            ExitGame();
-        }
-
-        if(Input.GetKeyDown(KeyCode.P))
-        {
-            RestartScene();
+            if (wannaLeave)
+            {
+                ExitToMainMenu();
+            }
+            else
+            {
+                wannaLeave = true;
+                StartCoroutine(ShowConfirmText(3));
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.Return) && Finished)
@@ -76,14 +80,23 @@ public class GameController : MonoBehaviour
         }
     }
 
+    private IEnumerator ShowConfirmText(float duration)
+    {
+        TMP_Text text = GameObject.Find("ConfirmText").GetComponent<TMP_Text>();
+        text.text = "Press Esc again to leave";
+        yield return new WaitForSeconds(duration);
+        text.text = "";
+        wannaLeave = false;
+    }
+
     public void RestartScene()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-    public void ExitGame()
+    public void ExitToMainMenu()
     {
-        Application.Quit();
+        SceneManager.LoadScene("MenuScene");
     }
 
     public IEnumerator DisableObjectTemporarily(GameObject gameObject, float disableAfterTime, float enableAfterTime)
