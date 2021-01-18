@@ -111,11 +111,6 @@ namespace UnityStandardAssets.Characters.FirstPerson
             {
                 m_AudioSource.clip = powerupSound;
                 m_AudioSource.Play();
-
-                if (gameController.PowerupActive)
-                {
-                    gameController.RemovePowerup = false;
-                }
                 Destroy(other.gameObject);
                 StartCoroutine(gameController.UseRandomPowerup(GameController.PowerupTime));
             }
