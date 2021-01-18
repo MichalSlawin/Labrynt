@@ -28,6 +28,7 @@ public class SceneGenerator : MonoBehaviour
     public Trap horizontalBladesTrapPrefab;
     public Trap tunnelBladesTrapPrefab;
     public Trap wallSpikesTrapPrefab;
+    public Trap wallSpikes2TrapPrefab;
     public Trap fallingTrapPrefab;
     public Trap doubleFallingTrapPrefab;
     public Trap multipleFallingSandsTrapPrefab;
@@ -524,7 +525,8 @@ public class SceneGenerator : MonoBehaviour
             horizontalRotatedBladesTrapPrefab,
             tunnelBladesTrapHardPrefab,
             bladesTrapHardPrefab,
-            hiddenFloorSpikesTrapPrefab
+            hiddenFloorSpikesTrapPrefab,
+            wallSpikes2TrapPrefab
         };
     }
 

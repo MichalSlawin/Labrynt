@@ -661,6 +661,8 @@ MonoBehaviour:
     type: 3}
   wallSpikesTrapPrefab: {fileID: 7625977754345109811, guid: 65add7656eec8524cb726f663f1d9e8c,
     type: 3}
+  wallSpikes2TrapPrefab: {fileID: 7625977754345109811, guid: 48e282dbfb3043940b2001722ba101c9,
+    type: 3}
   fallingTrapPrefab: {fileID: 7929764289818338014, guid: 3a79e852622d85044ba7f1fc748d306e,
     type: 3}
   doubleFallingTrapPrefab: {fileID: 3573840277015022085, guid: d73c2c2aea68d4247892bd968b4327a7,
